@@ -27,7 +27,7 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Prompt
-eval "$(oh-my-posh init zsh --config ~/.config/zsh/omp.theme.toml)"
+eval "$(oh-my-posh init zsh --config ~/.config/omp.theme.toml)"
 
 
 # Syntax highlighting

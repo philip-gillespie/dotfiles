@@ -1,0 +1,127 @@
+#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+version = 2
+final_space = true
+console_title_template = '{{ .Shell }} in {{ .Folder }}'
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline=true
+
+  [[blocks.segments]]
+    type = 'os'
+    style = 'diamond'
+    powerline_symbol = ''
+    # powerline_symbol = ''
+    foreground = 'p:text'
+    background = 'p:surface0'
+    # leading_diamond = ''
+    template = ' {{ if .WSL }}WSL at {{ end }}{{.Icon}} '
+
+  [[blocks.segments]]
+    type = 'session'
+    # style = 'diamond'
+    style = 'powerline'
+    # powerline_symbol = ''
+    powerline_symbol = ''
+    # foreground = 'p:text'
+    # background = 'p:surface0'
+    foreground = 'p:mantle'
+    background = 'p:red'
+    # template = ' {{ if .SSHSession }} {{ end }}{{ .UserName }}@{{ .HostName }} '
+    template = '  {{ .UserName }} '
+
+ #  [[blocks.segments]]
+ #    type = 'time'
+ #    style = 'powerline'
+ #    powerline_symbol = ''
+ #    foreground = 'p:mantle'
+ #    background = 'p:red'
+ #    template = ' {{ .CurrentDate | date .Format }} '
+	# [blocks.segments.properties]
+	# time_format = "15:04"
+
+  [[blocks.segments]]
+    type = 'path'
+    style = 'powerline'
+    powerline_symbol = ''
+    foreground = 'p:mantle'
+    background = 'p:peach'
+    template = '  /{{ .Path }} '
+
+    [blocks.segments.properties]
+      style = 'folder'
+
+  [[blocks.segments]]
+    type = 'git'
+    style = 'accordion'
+    powerline_symbol = ''
+    foreground = 'p:mantle'
+    background = 'p:green'
+    # template = ' {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} '
+    template = ' {{ .HEAD }} '
+
+    [blocks.segments.properties]
+      branch_max_length = 25
+      fetch_status = true
+      fetch_upstream_icon = true
+
+  [[blocks.segments]]
+    type = 'python'
+    style = 'accordion'
+    powerline_symbol = ''
+    foreground = 'p:mantle'
+    background = 'p:blue'
+	template = '  {{if .Venv}}({{.Venv}}){{end}}'
+
+    [blocks.segments.properties]
+      display_mode = 'context'
+	  home_enabled = true
+      fetch_version = true
+      fetch_virtual_env = true
+	  folder_name_fallback = false
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    type = 'text'
+    foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}green{{end}}']
+    background = 'transparent'
+  	template = ''
+
+[transient_prompt]
+  foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}blue{{end}}']
+  background = 'transparent'
+  template = ' '
+
+[palette]
+  base = '#1e1e2e'
+  blue = '#89b4fa'
+  crust = '#11111b'
+  flamingo = '#f2cdcd'
+  green = '#a6e3a1'
+  lavender = '#b4befe'
+  mantle = '#181825'
+  maroon = '#eba0ac'
+  orange = '#cba6f7'
+  oveletrlay1 = '#7f849c'
+  overlay0 = '#6c7086'
+  overlay2 = '#9399b2'
+  peach = '#fab387'
+  pink = '#f5c2e7'
+  red = '#f38ba8'
+  rosewater = '#f5e0dc'
+  sapphire = '#74c7ec'
+  sky = '#89dceb'
+  subtext0 = '#a6adc8'
+  subtext1 = '#bac2de'
+  surface0 = '#313244'
+  surface1 = '#45475a'
+  surface2 = '#585b70'
+  teal = '#94e2d5'
+  text = '#cdd6f4'
+  yellow = '#f9e2af'
