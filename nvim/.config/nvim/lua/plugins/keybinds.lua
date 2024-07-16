@@ -14,6 +14,12 @@ vim.g.mapleader = " " -- Set Leader Keybind
 -- Plugin Keybindings
 local keybinds = {
     ["<leader>"] = {
+        b = {
+            name = "Buffers",
+            n = { "<cmd>bn<cr>", "Next" },
+            p = { "<cmd>bp<cr>", "Previous" },
+            x = { "<cmd>bd<cr>", "Delete" },
+        },
         e = {
             name = "Diagnostic",
             t = {
@@ -27,7 +33,7 @@ local keybinds = {
             p = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Previous" },
         },
         f = {
-            name = "file", -- typically using the plugin Telescope
+            name = "File", -- typically using the plugin Telescope
             f = { "<cmd>Telescope find_files<cr>", "Find File" },
             g = { "<cmd>Telescope live_grep<cr>", "Live Grep" },
             b = { "<cmd>Telescope buffers<cr>", "Buffers" },
@@ -38,7 +44,7 @@ local keybinds = {
             f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format File" },
             d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Get Definition" },
         },
-        n = {
+        t = {
             "<cmd>Neotree filesystem reveal left toggle<cr>",
             "File Tree",
         },
