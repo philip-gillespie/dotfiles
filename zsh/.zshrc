@@ -1,5 +1,8 @@
 # .zshrc
 # My personal zshell configuration
+
+source ~/.profile
+
 # stty eof undef
 # Define the custom widget
 use_exit() {
@@ -72,8 +75,4 @@ setopt ignoreeof
 
 # Fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-eval "$(fzf --zsh)"
 
-
-#  Catpuccin
-# source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
