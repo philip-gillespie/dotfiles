@@ -1,8 +1,6 @@
 # .zshrc
 # My personal zshell configuration
 
-source ~/.profile
-
 # stty eof undef
 # Define the custom widget
 use_exit() {
