@@ -1,5 +1,6 @@
 # .zshrc
 # My personal zshell configuration
+source $HOME/.profile
 
 # stty eof undef
 # Define the custom widget
