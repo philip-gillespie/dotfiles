@@ -1,12 +1,18 @@
-return {
+local function buffer_with_directory()
+	local file = vim.fn.expand("%:t") -- Filename
+	local dir = vim.fn.expand("%:h:t") -- Parent directory name
+	return dir ~= "" and (dir .. "/" .. file) or file
+end
 
+return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
 		require("lualine").setup({
 			sections = {
 				lualine_a = { "mode" },
-				lualine_b = { "buffers" },
+				-- lualine_b = { "buffers" },
+				lualine_b = { buffer_with_directory },
 				lualine_c = {},
 				lualine_x = {},
 				lualine_y = { "location" },
