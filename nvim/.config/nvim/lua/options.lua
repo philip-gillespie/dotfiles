@@ -17,6 +17,10 @@ vim.o.tabstop = 4
 -- Tabs take up 4 spaces
 vim.o.shiftwidth = 4
 
+-- Autoindent
+vim.opt.smartindent = true
+vim.opt.autoindent = true
+
 -- prevent autocomment on next line
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	callback = function()
