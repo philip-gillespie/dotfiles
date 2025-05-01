@@ -1,7 +1,21 @@
-local function buffer_with_directory()
-	local file = vim.fn.expand("%:t") -- Filename
-	local dir = vim.fn.expand("%:h:t") -- Parent directory name
-	return dir ~= "" and (dir .. "/" .. file) or file
+-- Custom function to get buffer names with full paths
+local function get_full_buffer_paths()
+    local buffers = vim.api.nvim_list_bufs()
+    local buffer_names = {}
+
+    for _, buf in ipairs(buffers) do
+        -- Get the full path for the buffer
+        local bufname = vim.fn.bufname(buf)
+        if bufname ~= "" then
+            -- Use the full path of the buffer
+            table.insert(buffer_names, vim.fn.fnamemodify(bufname, ":p"))
+        else
+            table.insert(buffer_names, "[No Name]")
+        end
+    end
+
+    -- Join all buffer names with separators
+    return table.concat(buffer_names, '  ')
 end
 
 return {
@@ -11,8 +25,7 @@ return {
 		require("lualine").setup({
 			sections = {
 				lualine_a = { "mode" },
-				-- lualine_b = { "buffers" },
-				lualine_b = { buffer_with_directory },
+				lualine_b = { {"buffers", show_filename_only = true} },
 				lualine_c = {},
 				lualine_x = {},
 				lualine_y = { "location" },
