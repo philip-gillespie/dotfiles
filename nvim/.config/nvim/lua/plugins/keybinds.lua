@@ -9,6 +9,20 @@ local function toggle_diagnostics()
 		vim.diagnostic.hide()
 	end
 end
+
+local function toggle_wrap()
+	local wo = vim.wo
+	wo.wrap = not wo.wrap
+
+	if wo.wrap then
+		vim.opt.linebreak = true
+		vim.opt.breakindent = true
+	else
+		vim.opt.linebreak = false
+		vim.opt.breakindent = false
+	end
+end
+
 -- keybinds.lua
 vim.g.mapleader = " " -- Set Leader Keybind
 -- Plugin Keybindings
@@ -52,8 +66,12 @@ local keybinds = {
 			d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Get Definition" },
 		},
 		t = {
-			"<cmd>Neotree filesystem reveal left toggle<cr>",
+			"<cmd>Neotree toggle<cr>",
 			"File Tree",
+		},
+		w = {
+			toggle_wrap,
+			"Toggle Wrap",
 		},
 		c = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
 		["/"] = { "<Plug>(comment_toggle_linewise_current)", "Comment" },
