@@ -73,7 +73,6 @@ local keybinds = {
 			toggle_wrap,
 			"Toggle Wrap",
 		},
-		c = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
 		["/"] = { "<Plug>(comment_toggle_linewise_current)", "Comment" },
 	},
 	["<leader>/"] = { "<Plug>(comment_toggle_linewise_visual)", "Comment", mode = "v" },

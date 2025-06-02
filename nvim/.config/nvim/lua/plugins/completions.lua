@@ -1,3 +1,18 @@
+-- Toggle for autocompletions
+local cmp_autocomplete_enabled = true
+
+function _G.ToggleCmpAutocomplete()
+	cmp_autocomplete_enabled = not cmp_autocomplete_enabled
+	require("cmp").setup({
+		completion = {
+			autocomplete = cmp_autocomplete_enabled and { require("cmp.types").cmp.TriggerEvent.TextChanged } or {},
+		},
+	})
+	print("Autocomplete " .. (cmp_autocomplete_enabled and "enabled" or "disabled"))
+end
+
+vim.keymap.set("n", "<leader>c", ToggleCmpAutocomplete, { desc = "Toggle autocomplete" })
+
 return {
 	{
 		-- Displays builtin LSP snippets
@@ -37,7 +52,7 @@ return {
 				completion = {
 					-- completeopt = "menu,menuone,noinsert,noselect",
 					completeopt = "menu,menuone,noinsert",
-					autocomplete = false,
+					-- autocomplete = false,
 				},
 				snippet = {
 					expand = function(args)
@@ -49,11 +64,11 @@ return {
 					documentation = cmp.config.window.bordered({ max_width = 30 }),
 				},
 				mapping = cmp.mapping.preset.insert({
-					["<Tab>"] = function(_)
+					["<Tab>"] = function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item()
-							-- else
-							-- 	cmp.complete()
+						else
+							fallback()
 						end
 					end,
 					["<C-Space>"] = cmp.mapping(function()
@@ -61,8 +76,6 @@ return {
 					end, { "i", "c" }),
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					-- manually trigger the menu to appear
-					-- ["<C-Space>"] = cmp.mapping.complete(),
 					["<C-e>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = false }),
 					["<C-n>"] = cmp.mapping(function(fallback)
