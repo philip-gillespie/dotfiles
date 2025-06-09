@@ -100,9 +100,11 @@ local function config()
 
     -- Sources for completion
     cfg["sources"] = cmp.config.sources({
-        { name = "nvim_lsp" },
-        { name = "luasnip" }, -- For luasnip users.
+        -- PRIMARY TIER - these sources are tried first
+        { name = "luasnip", priority=1000},
+        { name = "nvim_lsp", priority=900},
     }, {
+        -- FALLBACK TIER - only shown if primary tier has no results
         { name = "buffer" },
     })
     return cfg
