@@ -42,13 +42,16 @@ local function config()
 
     -- Mappings
     local keymaps = {}
-
-    -- Built in
-    keymaps["<CR>"] = cmp.mapping.confirm({ select = false })
     keymaps["<C-b>"] = cmp.mapping.scroll_docs(-4)
     keymaps["<C-f>"] = cmp.mapping.scroll_docs(4)
-    keymaps["<C-e>"] = cmp.mapping.abort()
-
+    keymaps["<C-e>"] = cmp.mapping.confirm({ select = false })
+    -- jump through snippet
+    local function jump(fallback)
+        if luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
+        end
+    end
+    keymaps["<C-y>"] = cmp.mapping(jump, { "i", "s" })
     -- Toggle suggestions
     local function toggle_suggestions()
         if cmp.visible() then
@@ -58,8 +61,7 @@ local function config()
         end
     end
     keymaps["<C-Space>"] = toggle_suggestions
-
-    -- Selecting with Tab
+    -- Next suggestion
     local function next_suggestion(fallback)
         if cmp.visible() then
             cmp.select_next_item()
@@ -67,7 +69,8 @@ local function config()
             fallback()
         end
     end
-    keymaps["<Tab>"] = next_suggestion
+    keymaps["<C-n>"] = next_suggestion
+    -- Previous suggestion
     local function prev_suggestion(fallback)
         if cmp.visible() then
             cmp.select_prev_item()
@@ -75,25 +78,7 @@ local function config()
             fallback()
         end
     end
-    keymaps["<S-Tab>"] = prev_suggestion
-
-    -- Jump through snippets
-    local function jump_forwards(fallback)
-        if luasnip.jumpable(1) then
-            luasnip.jump(1)
-        else
-            fallback()
-        end
-    end
-    keymaps["<C-n>"] = cmp.mapping(jump_forwards, { "i", "s" })
-    local function jump_backwards(fallback)
-        if luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-        else
-            fallback()
-        end
-    end
-    keymaps["<C-m>"] = cmp.mapping(jump_backwards, { "i", "s" })
+    keymaps["<C-m>"] = prev_suggestion
 
     -- Use these specified keymaps
     cfg["mapping"] = cmp.mapping.preset.insert(keymaps)
@@ -135,7 +120,7 @@ function _G.ToggleCmpAutocomplete()
 end
 
 -- Set as keymap
-vim.keymap.set("n", "<leader>c", ToggleCmpAutocomplete, { desc = "Toggle autocomplete" })
+vim.keymap.set("n", "<leader>c", ToggleCmpAutocomplete, { desc = "Toggle completions" })
 
 -- Return the module
 return M
