@@ -42,6 +42,9 @@ local function config()
 
     -- Mappings
     local keymaps = {}
+    keymaps["<CR>"] = function (fallback)
+        fallback()
+    end
     keymaps["<C-b>"] = cmp.mapping.scroll_docs(-4)
     keymaps["<C-f>"] = cmp.mapping.scroll_docs(4)
     keymaps["<C-e>"] = cmp.mapping.confirm({ select = false })
@@ -51,7 +54,7 @@ local function config()
             luasnip.expand_or_jump()
         end
     end
-    keymaps["<C-y>"] = cmp.mapping(jump, { "i", "s" })
+    keymaps["<C-n>"] = cmp.mapping(jump, { "i", "s" })
     -- Toggle suggestions
     local function toggle_suggestions()
         if cmp.visible() then
@@ -69,7 +72,7 @@ local function config()
             fallback()
         end
     end
-    keymaps["<C-n>"] = next_suggestion
+    keymaps["<C-m>"] = next_suggestion
     -- Previous suggestion
     local function prev_suggestion(fallback)
         if cmp.visible() then
@@ -78,7 +81,7 @@ local function config()
             fallback()
         end
     end
-    keymaps["<C-m>"] = prev_suggestion
+    keymaps["<C-S-m>"] = prev_suggestion
 
     -- Use these specified keymaps
     cfg["mapping"] = cmp.mapping.preset.insert(keymaps)
