@@ -72,7 +72,7 @@ local function config()
             fallback()
         end
     end
-    keymaps["<C-m>"] = next_suggestion
+    keymaps["<C-j>"] = next_suggestion
     -- Previous suggestion
     local function prev_suggestion(fallback)
         if cmp.visible() then
@@ -81,7 +81,7 @@ local function config()
             fallback()
         end
     end
-    keymaps["<C-S-m>"] = prev_suggestion
+    keymaps["<C-k>"] = prev_suggestion
 
     -- Use these specified keymaps
     cfg["mapping"] = cmp.mapping.preset.insert(keymaps)
