@@ -116,7 +116,7 @@ return {
 		},
 		config = function()
 			require("mason-null-ls").setup({
-				ensure_installed = { "stylua", "prettier", "black" },
+				ensure_installed = { "stylua", "prettier", "black", "isort"},
 			})
 		end,
 	},
@@ -129,6 +129,7 @@ return {
 				sources = {
 					null_ls.builtins.formatting.stylua,
 					null_ls.builtins.formatting.black,
+                    null_ls.builtins.formatting.isort,
 					null_ls.builtins.formatting.prettier.with({
 						extra_filetypes = { "toml" },
 					}),
