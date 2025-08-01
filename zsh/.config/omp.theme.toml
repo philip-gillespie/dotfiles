@@ -10,72 +10,49 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
   newline=true
 
   [[blocks.segments]]
-    type = 'os'
-    style = 'diamond'
-    powerline_symbol = ''
-    # powerline_symbol = ''
+    template=' {{.Icon}} '
     foreground = 'p:text'
     background = 'p:surface0'
-    # leading_diamond = ''
-    template = ' {{ if .WSL }}WSL at {{ end }}{{.Icon}} '
+    type = 'os'
+    style = 'diamond'
 
   [[blocks.segments]]
-    type = 'session'
-    # style = 'diamond'
-    style = 'powerline'
-    # powerline_symbol = ''
-    powerline_symbol = ''
-    # foreground = 'p:text'
-    # background = 'p:surface0'
+    template = '  /{{ .Path }} '
     foreground = 'p:mantle'
-    background = 'p:red'
-    # template = ' {{ if .SSHSession }} {{ end }}{{ .UserName }}@{{ .HostName }} '
-    template = '  {{ .UserName }} '
-
- #  [[blocks.segments]]
- #    type = 'time'
- #    style = 'powerline'
- #    powerline_symbol = ''
- #    foreground = 'p:mantle'
- #    background = 'p:red'
- #    template = ' {{ .CurrentDate | date .Format }} '
-	# [blocks.segments.properties]
-	# time_format = "15:04"
-
-  [[blocks.segments]]
+    powerline_symbol = ''
+    background = 'p:peach'
     type = 'path'
     style = 'powerline'
-    powerline_symbol = ''
-    foreground = 'p:mantle'
-    background = 'p:peach'
-    template = '  /{{ .Path }} '
 
     [blocks.segments.properties]
+      cache_duration = 'none'
       style = 'folder'
+      max_len=5
 
   [[blocks.segments]]
+    template = '  '
+    foreground = 'p:mantle'
+    powerline_symbol = ''
+    background = 'p:green'
     type = 'git'
     style = 'accordion'
-    powerline_symbol = ''
-    foreground = 'p:mantle'
-    background = 'p:green'
-    # template = ' {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} '
-    template = ' {{ .HEAD }} '
 
     [blocks.segments.properties]
       branch_max_length = 25
       fetch_status = true
+      cache_duration = 'none'
       fetch_upstream_icon = true
 
   [[blocks.segments]]
+	template = '  {{if .Venv}}(venv){{end}}'
+    foreground = 'p:mantle'
+    powerline_symbol = ''
+    background = 'p:blue'
     type = 'python'
     style = 'accordion'
-    powerline_symbol = ''
-    foreground = 'p:mantle'
-    background = 'p:blue'
-	template = '  {{if .Venv}}({{.Venv}}){{end}}'
 
     [blocks.segments.properties]
+      cache_duration='none'
       display_mode = 'context'
 	  home_enabled = true
       fetch_version = true
@@ -88,10 +65,10 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
   newline = true
 
   [[blocks.segments]]
+  	template = ''
+    background = 'transparent'
     type = 'text'
     foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}green{{end}}']
-    background = 'transparent'
-  	template = ''
 
 [transient_prompt]
   foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}blue{{end}}']
