@@ -10,6 +10,9 @@ keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- remap upper W to also save
+vim.api.nvim_create_user_command("W","w", {})
+
 -- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
