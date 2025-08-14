@@ -11,7 +11,7 @@ def wezterm_show():
         tmp.write(buf.read())
         tmp.flush()
         subprocess.run(["imgcat", tmp.name])
-    plt.close()
+    print("\n")
     return None
 
 plt.show = wezterm_show
