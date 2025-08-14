@@ -39,3 +39,10 @@ luac.out
 *.x86_64
 *.hex
 
+# IPython runtime & caches
+ipython/.ipython/profile_default/history.sqlite
+ipython/.ipython/profile_default/db/
+ipython/.ipython/profile_default/log/
+ipython/.ipython/profile_default/security/
+ipython/.ipython/profile_default/pid/
+
