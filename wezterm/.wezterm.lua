@@ -236,6 +236,11 @@ config.keys = {
 		action = act.ActivatePaneDirection("Left"),
 	},
 	{
+		key = "h",
+		mods = "LEADER|CTRL",
+		action = act.ActivatePaneDirection("Left"),
+	},
+	{
 		key = "j",
 		mods = "LEADER|CTRL",
 		action = act.ActivatePaneDirection("Down"),
@@ -248,6 +253,11 @@ config.keys = {
 	{
 		key = "l",
 		mods = "CTRL",
+		action = act.ActivatePaneDirection("Right"),
+	},
+	{
+		key = "l",
+		mods = "LEADER|CTRL",
 		action = act.ActivatePaneDirection("Right"),
 	},
 	{
@@ -303,11 +313,6 @@ config.keys = {
 	{
 		key = "F11",
 		action = act.ToggleFullScreen,
-	},
-	{
-		key = "l",
-		mods = "LEADER|CTRL",
-		action = act.ShowDebugOverlay,
 	},
 }
 
