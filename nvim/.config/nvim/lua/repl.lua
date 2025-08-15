@@ -26,8 +26,14 @@ function M.send_currentLine()
 end
 
 function M.send_visual_lines()
-    local start_line = vim.fn.line("'<") - 1
-    local end_line = vim.fn.line("'>")
+    -- Save current visual selection before it's lost
+    local start_line = vim.fn.line("v") - 1
+    local end_line = vim.fn.line(".") 
+    
+    -- Make sure start_line is actually the start
+    if start_line > end_line then
+        start_line, end_line = end_line, start_line
+    end
 
     local lines = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
     local code = table.concat(lines, "\n")
