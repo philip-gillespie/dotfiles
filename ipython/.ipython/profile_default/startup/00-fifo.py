@@ -5,7 +5,6 @@
 import os
 from threading import Thread
 
-from IPython.core.getipython import get_ipython
 from IPython.core.interactiveshell import InteractiveShell
 from pygments import highlight
 from pygments.formatters import TerminalFormatter
@@ -17,6 +16,16 @@ if not os.path.exists(FIFO_PATH):
     os.mkfifo(FIFO_PATH)
 
 
+def get_shell() -> InteractiveShell:
+    ipy: InteractiveShell | None = get_ipython()
+    if ipy is None:
+        raise RuntimeError("This script must be run inside IPython")
+    return ipy
+
+
+ipy = get_shell()
+
+
 def format_code(code: str) -> str:
     highlighted: str = highlight(code, PythonLexer(), TerminalFormatter())
     # Add ">>> " to code inputs
@@ -25,14 +34,11 @@ def format_code(code: str) -> str:
         split[i] = ">>> " + line
     formatted = "\n".join(split)
     # replace tabs with spaces
-    output = formatted.replace("\t", " "*4)
+    output = formatted.replace("\t", " " * 4)
     return output
 
 
 def watch_fifo():
-    ipy: InteractiveShell | None = get_ipython()
-    if ipy is None:
-        raise RuntimeError("This script must be run inside IPython")
     while True:
         with open(FIFO_PATH, "r") as f:
             code = f.read()
