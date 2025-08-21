@@ -14,5 +14,6 @@ config_dir = os.path.join(
 if config_dir not in sys.path:
     sys.path.append(config_dir)
 
+c.TerminalInteractiveShell.true_color = True
 c.InteractiveShellApp.extensions = ["restart"]
 c.TerminalInteractiveShell.editing_mode = "vi"
