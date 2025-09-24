@@ -29,6 +29,7 @@ end
 vim.g.mapleader = " " -- Set Leader Keybind
 -- Plugin Keybindings
 local keybinds = {
+    { "<C-/>", "<Plug>(comment_toggle_linewise_current)", desc = "Comment" },
 	{ "<leader>/", "<Plug>(comment_toggle_linewise_current)", desc = "Comment" },
 	{ "<leader>b", group = "Buffers" },
 	{ "<leader>bn", "<cmd>bn<cr>", desc = "Next" },
