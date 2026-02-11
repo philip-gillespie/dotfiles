@@ -6,6 +6,9 @@ vim.o.guifont = "Source Code Pro:h44"
 -- Allow underscores to delimit words
 vim.opt.iskeyword:remove("_")
 
+-- Clipboard
+vim.opt.clipboard = "unnamedplus"
+
 -- GUI
 vim.opt.cursorline = true -- highlight the current line
 vim.opt.wrap = false -- display long lines as one long line
