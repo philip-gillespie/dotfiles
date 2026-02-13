@@ -5,7 +5,6 @@ local act = wezterm.action
 
 -- Build the config
 local config = wezterm.config_builder()
-config.native_macos_fullscreen_mode = true
 
 -- Run bash by default
 local operating_system = wezterm.target_triple
@@ -46,9 +45,9 @@ config.use_fancy_tab_bar = false
 config.show_new_tab_button_in_tab_bar = false
 
 -- Window Decorations
--- config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
--- config.integrated_title_buttons = { "Hide", "Maximize", "Close" }
--- config.integrated_title_button_style = "MacOsNative"
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+config.integrated_title_buttons = { "Close" }
+config.integrated_title_button_style = "Gnome"
 
 -- Padding
 config.window_padding = {
@@ -250,22 +249,32 @@ config.keys = {
 	},
 	{
 		key = "h",
-		mods = "CMD",
+		mods = "CTRL",
+		action = act.ActivatePaneDirection("Left"),
+	},
+	{
+		key = "h",
+		mods = "LEADER|CTRL",
 		action = act.ActivatePaneDirection("Left"),
 	},
 	{
 		key = "j",
-		mods = "CMD",
+		mods = "LEADER|CTRL",
 		action = act.ActivatePaneDirection("Down"),
 	},
 	{
 		key = "k",
-		mods = "CMD",
+		mods = "LEADER|CTRL",
 		action = act.ActivatePaneDirection("Up"),
 	},
 	{
 		key = "l",
-		mods = "CMD",
+		mods = "CTRL",
+		action = act.ActivatePaneDirection("Right"),
+	},
+	{
+		key = "l",
+		mods = "LEADER|CTRL",
 		action = act.ActivatePaneDirection("Right"),
 	},
 	{
@@ -275,22 +284,22 @@ config.keys = {
 	},
 	{
 		key = "LeftArrow",
-		mods = "CMD",
+		mods = "CTRL",
 		action = act.AdjustPaneSize({ "Left", 1 }),
 	},
 	{
 		key = "RightArrow",
-		mods = "CMD",
+		mods = "CTRL",
 		action = act.AdjustPaneSize({ "Right", 1 }),
 	},
 	{
 		key = "UpArrow",
-		mods = "CMD",
+		mods = "CTRL",
 		action = act.AdjustPaneSize({ "Up", 1 }),
 	},
 	{
 		key = "DownArrow",
-		mods = "CMD",
+		mods = "CTRL",
 		action = act.AdjustPaneSize({ "Down", 1 }),
 	},
 	{
