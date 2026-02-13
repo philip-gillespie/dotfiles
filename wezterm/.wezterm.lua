@@ -144,7 +144,12 @@ INACTIVE_TAB_RIGHT_SEPARATOR = wezterm.format({
 	{ Text = " " },
 })
 
-local function get_process_name(tab)
+local function get_tab_title(tab)
+	local title = tab.tab_title
+	if title and #title > 0 then
+		return title
+	end
+
 	local process = tab.active_pane.foreground_process_name
 
 	process = process:gsub("%.exe$", "")
@@ -167,11 +172,11 @@ wezterm.on("format-tab-title", function(tab, _, _, _, _, _)
 	end
 
 	--
-	local process = get_process_name(tab)
-	local process_text = wezterm.format({
+	local title = get_tab_title(tab)
+	local title_text = wezterm.format({
 		{ Background = { Color = background_color } },
 		{ Foreground = { Color = MOCHA_TEXT } },
-		{ Text = process .. " " },
+		{ Text = title .. " " },
 	})
 
 	local number = tab.tab_index + 1 -- WezTerm uses 0-based indexing
@@ -182,9 +187,9 @@ wezterm.on("format-tab-title", function(tab, _, _, _, _, _)
 	})
 
 	if tab.is_active then
-		return ACTIVE_TAB_LEFT_SEPARATOR .. process_text .. number_text .. ACTIVE_TAB_RIGHT_SEPARATOR
+		return ACTIVE_TAB_LEFT_SEPARATOR .. title_text .. number_text .. ACTIVE_TAB_RIGHT_SEPARATOR
 	else
-		return INACTIVE_TAB_LEFT_SEPARATOR .. process_text .. number_text .. INACTIVE_TAB_RIGHT_SEPARATOR
+		return INACTIVE_TAB_LEFT_SEPARATOR .. title_text .. number_text .. INACTIVE_TAB_RIGHT_SEPARATOR
 	end
 end)
 
@@ -195,6 +200,18 @@ config.leader = {
 	timeout_milliseconds = 1000,
 }
 config.keys = {
+	{
+		key = "e",
+		mods = "LEADER|CTRL",
+		action = act.PromptInputLine({
+            description = "Enter new tab name",
+			action = wezterm.action_callback(function(window, pane, line)
+				if line then
+					window:active_tab():set_title(line)
+				end
+			end),
+		}),
+	},
 	{
 		key = "v",
 		mods = "LEADER|CTRL",
