@@ -5,6 +5,7 @@ local act = wezterm.action
 
 -- Build the config
 local config = wezterm.config_builder()
+config.native_macos_fullscreen_mode = true
 
 -- Run bash by default
 local operating_system = wezterm.target_triple
@@ -45,9 +46,9 @@ config.use_fancy_tab_bar = false
 config.show_new_tab_button_in_tab_bar = false
 
 -- Window Decorations
-config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
-config.integrated_title_buttons = { "Close" }
-config.integrated_title_button_style = "Gnome"
+-- config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+-- config.integrated_title_buttons = { "Hide", "Maximize", "Close" }
+-- config.integrated_title_button_style = "MacOsNative"
 
 -- Padding
 config.window_padding = {
@@ -144,7 +145,12 @@ INACTIVE_TAB_RIGHT_SEPARATOR = wezterm.format({
 	{ Text = " " },
 })
 
-local function get_process_name(tab)
+local function get_tab_title(tab)
+	local title = tab.tab_title
+	if title and #title > 0 then
+		return title
+	end
+
 	local process = tab.active_pane.foreground_process_name
 
 	process = process:gsub("%.exe$", "")
@@ -167,11 +173,11 @@ wezterm.on("format-tab-title", function(tab, _, _, _, _, _)
 	end
 
 	--
-	local process = get_process_name(tab)
-	local process_text = wezterm.format({
+	local title = get_tab_title(tab)
+	local title_text = wezterm.format({
 		{ Background = { Color = background_color } },
 		{ Foreground = { Color = MOCHA_TEXT } },
-		{ Text = process .. " " },
+		{ Text = title .. " " },
 	})
 
 	local number = tab.tab_index + 1 -- WezTerm uses 0-based indexing
@@ -182,9 +188,9 @@ wezterm.on("format-tab-title", function(tab, _, _, _, _, _)
 	})
 
 	if tab.is_active then
-		return ACTIVE_TAB_LEFT_SEPARATOR .. process_text .. number_text .. ACTIVE_TAB_RIGHT_SEPARATOR
+		return ACTIVE_TAB_LEFT_SEPARATOR .. title_text .. number_text .. ACTIVE_TAB_RIGHT_SEPARATOR
 	else
-		return INACTIVE_TAB_LEFT_SEPARATOR .. process_text .. number_text .. INACTIVE_TAB_RIGHT_SEPARATOR
+		return INACTIVE_TAB_LEFT_SEPARATOR .. title_text .. number_text .. INACTIVE_TAB_RIGHT_SEPARATOR
 	end
 end)
 
@@ -195,6 +201,18 @@ config.leader = {
 	timeout_milliseconds = 1000,
 }
 config.keys = {
+	{
+		key = "e",
+		mods = "LEADER|CTRL",
+		action = act.PromptInputLine({
+            description = "Enter new tab name",
+			action = wezterm.action_callback(function(window, pane, line)
+				if line then
+					window:active_tab():set_title(line)
+				end
+			end),
+		}),
+	},
 	{
 		key = "v",
 		mods = "LEADER|CTRL",
@@ -232,32 +250,22 @@ config.keys = {
 	},
 	{
 		key = "h",
-		mods = "CTRL",
-		action = act.ActivatePaneDirection("Left"),
-	},
-	{
-		key = "h",
-		mods = "LEADER|CTRL",
+		mods = "CMD",
 		action = act.ActivatePaneDirection("Left"),
 	},
 	{
 		key = "j",
-		mods = "LEADER|CTRL",
+		mods = "CMD",
 		action = act.ActivatePaneDirection("Down"),
 	},
 	{
 		key = "k",
-		mods = "LEADER|CTRL",
+		mods = "CMD",
 		action = act.ActivatePaneDirection("Up"),
 	},
 	{
 		key = "l",
-		mods = "CTRL",
-		action = act.ActivatePaneDirection("Right"),
-	},
-	{
-		key = "l",
-		mods = "LEADER|CTRL",
+		mods = "CMD",
 		action = act.ActivatePaneDirection("Right"),
 	},
 	{
@@ -267,22 +275,22 @@ config.keys = {
 	},
 	{
 		key = "LeftArrow",
-		mods = "CTRL",
+		mods = "CMD",
 		action = act.AdjustPaneSize({ "Left", 1 }),
 	},
 	{
 		key = "RightArrow",
-		mods = "CTRL",
+		mods = "CMD",
 		action = act.AdjustPaneSize({ "Right", 1 }),
 	},
 	{
 		key = "UpArrow",
-		mods = "CTRL",
+		mods = "CMD",
 		action = act.AdjustPaneSize({ "Up", 1 }),
 	},
 	{
 		key = "DownArrow",
-		mods = "CTRL",
+		mods = "CMD",
 		action = act.AdjustPaneSize({ "Down", 1 }),
 	},
 	{
