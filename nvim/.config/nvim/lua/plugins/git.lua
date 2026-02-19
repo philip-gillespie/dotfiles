@@ -1,4 +1,6 @@
-return {
+local M = {}
+
+local gitsigns = {
 	"lewis6991/gitsigns.nvim",
 	config = function()
 		require("gitsigns").setup({
@@ -7,3 +9,12 @@ return {
 		})
 	end,
 }
+table.insert(M, gitsigns)
+
+local vim_fugitive = {
+	"tpope/vim-fugitive",
+	cmd = { "Git", "G", "Gdiffsplit", "Gvdiffsplit", "Gedit", "Gwrite", "Gread", "Gbrowse" },
+}
+table.insert(M, vim_fugitive)
+
+return M
