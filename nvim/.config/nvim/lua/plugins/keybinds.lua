@@ -83,6 +83,11 @@ local keybinds = {
 	{ "<leader>ys", "<cmd>Gitsigns stage_hunk<CR>", desc = "Toggle Stage Hunk" },
 	{ "<leader>yS", "<cmd>Gitsigns stage_buffer<CR>", desc = "Stage Buffer" },
 	{ "<leader>yU", "<cmd>Gitsigns reset_buffer_index<CR>", desc = "Unstage Buffer" },
+	{ "<leader>yn", "<cmd>Gitsigns next_hunk<CR>" },
+	{ "<leader>yN", "<cmd>Gitsigns prev_hunk<CR>" },
+	{ "<leader>yu", "<cmd>Gitsigns reset_hunk<CR>" },
+	{ "<leader>yb", "<cmd>Gitsigns toggle_current_line_blame<CR>" },
+	{ "<leader>yB", "<cmd>Gitsigns blame_line<CR>" },
 }
 
 return {
