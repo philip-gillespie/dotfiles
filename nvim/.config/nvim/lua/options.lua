@@ -8,6 +8,7 @@ vim.opt.iskeyword:remove("_")
 
 -- Copy / Paste Behaviour
 vim.opt.clipboard = "unnamedplus"
+-- vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
 
 -- GUI
 vim.opt.cursorline = true -- highlight the current line

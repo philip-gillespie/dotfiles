@@ -23,18 +23,18 @@ vim.api.nvim_create_user_command("W", "w", {})
 
 -- Select mode
 -- Common keys that have different behavior in SELECT mode
-vim.keymap.set('s', 'p', 'p', { noremap = true })  -- paste -> type 'p'
-vim.keymap.set('s', 'P', 'P', { noremap = true })  -- paste before -> type 'P'
-vim.keymap.set('s', 'c', 'c', { noremap = true })  -- change -> type 'c'
-vim.keymap.set('s', 'C', 'C', { noremap = true })  -- change line -> type 'C'
-vim.keymap.set('s', 'd', 'd', { noremap = true })  -- delete -> type 'd'
-vim.keymap.set('s', 'D', 'D', { noremap = true })  -- delete line -> type 'D'
-vim.keymap.set('s', 'x', 'x', { noremap = true })  -- delete char -> type 'x'
-vim.keymap.set('s', 'X', 'X', { noremap = true })  -- delete char before -> type 'X'
-vim.keymap.set('s', 'r', 'r', { noremap = true })  -- replace -> type 'r'
-vim.keymap.set('s', 'R', 'R', { noremap = true })  -- replace mode -> type 'R'
-vim.keymap.set('s', 's', 's', { noremap = true })  -- substitute -> type 's'
-vim.keymap.set('s', 'S', 'S', { noremap = true })  -- substitute line -> type 'S'
+keymap('s', 'p', 'p', { noremap = true })  -- paste -> type 'p'
+keymap('s', 'P', 'P', { noremap = true })  -- paste before -> type 'P'
+keymap('s', 'c', 'c', { noremap = true })  -- change -> type 'c'
+keymap('s', 'C', 'C', { noremap = true })  -- change line -> type 'C'
+keymap('s', 'd', 'd', { noremap = true })  -- delete -> type 'd'
+keymap('s', 'D', 'D', { noremap = true })  -- delete line -> type 'D'
+keymap('s', 'x', 'x', { noremap = true })  -- delete char -> type 'x'
+keymap('s', 'X', 'X', { noremap = true })  -- delete char before -> type 'X'
+keymap('s', 'r', 'r', { noremap = true })  -- replace -> type 'r'
+keymap('s', 'R', 'R', { noremap = true })  -- replace mode -> type 'R'
+keymap('s', 's', 's', { noremap = true })  -- substitute -> type 's'
+keymap('s', 'S', 'S', { noremap = true })  -- substitute line -> type 'S'
 
 
 -- Normal --
@@ -53,15 +53,7 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 -- Navigate buffers
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
--- keymap("n", "<leader>x",":bd<CR>",opts)
 
--- Insert --
--- Press jk fast to enter
--- keymap("i", "jk", "<ESC>", opts)
-
--- Visual --
--- paste over text, keep same value in paste buffer
-keymap("x", "p", '"_dP', opts)
 
 -- Visual Block --
 -- Move text up and down
