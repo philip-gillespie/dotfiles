@@ -1,6 +1,4 @@
 # .zshrc
-# My personal zshell configuration
-source $HOME/.profile
 
 # stty eof undef
 # Define the custom widget
@@ -31,18 +29,20 @@ source "${ZINIT_HOME}/zinit.zsh"
 # Prompt
 eval "$(oh-my-posh init zsh --config ~/.config/omp.theme.toml)"
 
+# Plugins
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-syntax-highlighting # syntax highlighting
+zinit light zsh-users/zsh-completions # Completions
+zinit light Aloxaf/fzf-tab # History
 
-# Syntax highlighting
-zinit light zsh-users/zsh-syntax-highlighting
+# Snippets
+zinit snippet OMZP::git
+zinit snippet OMZP::docker
+zinit snippet OMZP::aws
 
-# Completions
-zinit light zsh-users/zsh-completions
-
+# Finalise Completions after plugin declarations
 autoload -U compinit && compinit
 zinit cdreplay -q
-
-# History
-zinit light Aloxaf/fzf-tab
 
 # Emacs keybindings
 bindkey -e
@@ -75,3 +75,10 @@ setopt ignoreeof
 # Fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# Homebrew
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # This only runs on macOS
+    if [[ -f "/opt/homebrew/bin/brew" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    fi
+fi
