@@ -30,7 +30,7 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
       max_len=5
 
   [[blocks.segments]]
-    template = '  '
+    template = ' {{ .HEAD }} '
     foreground = 'p:mantle'
     powerline_symbol = ''
     background = 'p:green'
