@@ -6,10 +6,20 @@ local act = wezterm.action
 -- Build the config
 local config = wezterm.config_builder()
 
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+config.integrated_title_buttons = { "Hide", "Maximize", "Close" }
+
 -- Run bash by default
 local operating_system = wezterm.target_triple
 if operating_system:find("windows") then
 	config.default_prog = { "C:/Program Files/Git/bin/bash.exe" }
+end
+local is_mac = operating_system:find("apple") ~= nil
+local mod = is_mac and "CMD" or "CTRL"
+local nav_mod = is_mac and "CMD" or "LEADER|CTRL"
+
+if is_mac then
+    config.integrated_title_button_style = "MacOsNative"
 end
 
 -- Default working directory
@@ -204,7 +214,7 @@ config.keys = {
 		key = "e",
 		mods = "LEADER|CTRL",
 		action = act.PromptInputLine({
-            description = "Enter new tab name",
+			description = "Enter new tab name",
 			action = wezterm.action_callback(function(window, pane, line)
 				if line then
 					window:active_tab():set_title(line)
@@ -254,17 +264,17 @@ config.keys = {
 	},
 	{
 		key = "h",
-		mods = "LEADER|CTRL",
+		mods = nav_mod,
 		action = act.ActivatePaneDirection("Left"),
 	},
 	{
 		key = "j",
-		mods = "LEADER|CTRL",
+		mods = nav_mod,
 		action = act.ActivatePaneDirection("Down"),
 	},
 	{
 		key = "k",
-		mods = "LEADER|CTRL",
+		mods = nav_mod,
 		action = act.ActivatePaneDirection("Up"),
 	},
 	{
@@ -274,7 +284,7 @@ config.keys = {
 	},
 	{
 		key = "l",
-		mods = "LEADER|CTRL",
+		mods = nav_mod,
 		action = act.ActivatePaneDirection("Right"),
 	},
 	{
@@ -284,22 +294,22 @@ config.keys = {
 	},
 	{
 		key = "LeftArrow",
-		mods = "CTRL",
+		mods = mod,
 		action = act.AdjustPaneSize({ "Left", 1 }),
 	},
 	{
 		key = "RightArrow",
-		mods = "CTRL",
+		mods = mod,
 		action = act.AdjustPaneSize({ "Right", 1 }),
 	},
 	{
 		key = "UpArrow",
-		mods = "CTRL",
+		mods = mod,
 		action = act.AdjustPaneSize({ "Up", 1 }),
 	},
 	{
 		key = "DownArrow",
-		mods = "CTRL",
+		mods = mod,
 		action = act.AdjustPaneSize({ "Down", 1 }),
 	},
 	{
