@@ -5,6 +5,9 @@ local act = wezterm.action
 -- Build the config
 local config = wezterm.config_builder()
 
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+config.integrated_title_buttons = { "Hide", "Maximize", "Close" }
+
 -- Run bash by default
 local operating_system = wezterm.target_triple
 local is_mac = operating_system:find("apple") ~= nil
@@ -21,6 +24,13 @@ else
 	config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 	config.integrated_title_buttons = { "Close" }
 	config.integrated_title_button_style = "Gnome"
+end
+local is_mac = operating_system:find("apple") ~= nil
+local mod = is_mac and "CMD" or "CTRL"
+local nav_mod = is_mac and "CMD" or "LEADER|CTRL"
+
+if is_mac then
+    config.integrated_title_button_style = "MacOsNative"
 end
 
 wezterm.on("window-resized", function(window, pane)
