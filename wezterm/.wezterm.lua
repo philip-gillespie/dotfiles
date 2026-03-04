@@ -1,26 +1,43 @@
 -- .wezterm.lua
 local wezterm = require("wezterm")
-local mux = wezterm.mux
 local act = wezterm.action
 
 -- Build the config
 local config = wezterm.config_builder()
 
-config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
-config.integrated_title_buttons = { "Hide", "Maximize", "Close" }
-
 -- Run bash by default
 local operating_system = wezterm.target_triple
-if operating_system:find("windows") then
-	config.default_prog = { "C:/Program Files/Git/bin/bash.exe" }
-end
 local is_mac = operating_system:find("apple") ~= nil
 local mod = is_mac and "CMD" or "CTRL"
 local nav_mod = is_mac and "CMD" or "LEADER|CTRL"
 
+
 if is_mac then
-    config.integrated_title_button_style = "MacOsNative"
+	-- TITLE_BAR gives you the traffic lights, but RESIZE removes the thick ugly bar
+	config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+	config.integrated_title_button_style = "MacOsNative"
+else
+	-- Your Linux/Gnome preference
+	config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+	config.integrated_title_buttons = { "Close" }
+	config.integrated_title_button_style = "Gnome"
 end
+
+wezterm.on("window-resized", function(window, pane)
+	local overrides = window:get_config_overrides() or {}
+	local is_fullscreen = window:get_dimensions().is_full_screen
+
+	-- Only apply this logic if we are on macOS
+	if wezterm.target_triple:find("apple") ~= nil then
+		if is_fullscreen then
+			overrides.window_decorations = "RESIZE"
+		else
+			overrides.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+		end
+
+		window:set_config_overrides(overrides)
+	end
+end)
 
 -- Default working directory
 config.default_cwd = wezterm.home_dir
@@ -55,9 +72,9 @@ config.use_fancy_tab_bar = false
 config.show_new_tab_button_in_tab_bar = false
 
 -- Window Decorations
-config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
-config.integrated_title_buttons = { "Close" }
-config.integrated_title_button_style = "Gnome"
+-- config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+-- config.integrated_title_buttons = { "Close" }
+-- config.integrated_title_button_style = "Gnome"
 
 -- Padding
 config.window_padding = {
