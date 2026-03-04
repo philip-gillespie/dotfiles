@@ -13,6 +13,10 @@ vim.g.maplocalleader = " "
 -- remap upper W to also save
 vim.api.nvim_create_user_command("W", "w", {})
 
+-- MacOS specific
+-- Insert mode: Option+3 = #
+vim.keymap.set('i', '<M-3>', '#')
+
 -- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
