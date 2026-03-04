@@ -17,6 +17,27 @@ for type, icon in pairs(signs) do
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
+-- LSP Log Management
+local lsp_log_path = vim.lsp.get_log_path()
+local max_size_mb = 5 -- Change this to your preferred limit (e.g., 5MB or 10MB)
+
+local function clean_lsp_log()
+	local f = io.open(lsp_log_path, "r")
+	if f then
+		local size = f:seek("end")
+		f:close()
+		-- Convert MB to bytes
+		if size > (max_size_mb * 1024 * 1024) then
+			os.remove(lsp_log_path)
+			-- Optional: Notify you that it happened
+			vim.notify("LSP log exceeded " .. max_size_mb .. "MB and was cleared.", vim.log.levels.INFO)
+		end
+	end
+end
+
+-- Run the check on startup
+clean_lsp_log()
+
 -- plugins for langauage server protocol
 return {
 	{
@@ -43,8 +64,17 @@ return {
 				willSave = false,
 				didSave = true,
 				willSaveWaitUntil = false,
-				change = 1, -- Full document sync instead of incremental DID NOT WORK
 			}
+			vim.lsp.config("pyrefly", {
+				settings = {
+					python = {
+						pyrefly = {
+							-- "force-on" enables type errors even without a pyrefly.toml
+							displayTypeErrors = "force-on",
+						},
+					},
+				},
+			})
 		end,
 	},
 	-- none-ls.lua
@@ -69,7 +99,6 @@ return {
 		config = function()
 			local null_ls = require("null-ls")
 			null_ls.setup({
-				debug = true,
 				sources = {
 					null_ls.builtins.formatting.stylua,
 					null_ls.builtins.formatting.isort,
