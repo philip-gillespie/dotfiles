@@ -71,11 +71,6 @@ config.enable_tab_bar = true
 config.use_fancy_tab_bar = false
 config.show_new_tab_button_in_tab_bar = false
 
--- Window Decorations
--- config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
--- config.integrated_title_buttons = { "Close" }
--- config.integrated_title_button_style = "Gnome"
-
 -- Padding
 config.window_padding = {
 	top = 10,
