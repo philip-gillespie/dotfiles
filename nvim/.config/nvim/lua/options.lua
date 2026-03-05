@@ -3,9 +3,6 @@
 -- Font
 vim.o.guifont = "Source Code Pro:h44"
 
--- Allow underscores to delimit words
-vim.opt.iskeyword:remove("_")
-
 -- Copy / Paste Behaviour
 vim.opt.clipboard = "unnamedplus"
 -- vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
