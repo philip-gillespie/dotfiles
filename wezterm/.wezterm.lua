@@ -11,7 +11,6 @@ local is_mac = operating_system:find("apple") ~= nil
 local mod = is_mac and "CMD" or "CTRL"
 local nav_mod = is_mac and "CMD" or "LEADER|CTRL"
 
-
 if is_mac then
 	-- TITLE_BAR gives you the traffic lights, but RESIZE removes the thick ugly bar
 	config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
@@ -65,6 +64,23 @@ MOCHA_TEXT = "#cdd6f4"
 MOCHA_MAUVE = "#cba6f7"
 MOCHA_PEACH = "#fab387"
 MOCHA_GREEN = "#a6e3a1"
+
+wezterm.on("window-focus-changed", function(window, pane)
+	local overrides = window:get_config_overrides() or {}
+	if window:is_focused() then
+		overrides.colors = nil
+        overrides.foreground_text_hsb = nil
+	else
+        overrides.foreground_text_hsb = {
+            brightness = 0.7, -- Dims the text of the ACTIVE pane
+            saturation = 0.7,
+        }
+		overrides.colors = {
+			background = MOCHA_CRUST, -- Switch to a darker base from your variables
+		}
+	end
+	window:set_config_overrides(overrides)
+end)
 
 -- Tabs
 config.enable_tab_bar = true
