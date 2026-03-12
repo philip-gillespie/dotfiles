@@ -65,18 +65,21 @@ MOCHA_MAUVE = "#cba6f7"
 MOCHA_PEACH = "#fab387"
 MOCHA_GREEN = "#a6e3a1"
 
-wezterm.on("window-focus-changed", function(window, pane)
+wezterm.on("window-focus-changed", function(window, _)
 	local overrides = window:get_config_overrides() or {}
 	if window:is_focused() then
 		overrides.colors = nil
-        overrides.foreground_text_hsb = nil
+		overrides.foreground_text_hsb = nil
 	else
-        overrides.foreground_text_hsb = {
-            brightness = 0.7, -- Dims the text of the ACTIVE pane
-            saturation = 0.7,
-        }
+		local palette = window:effective_config().resolved_palette
+		local current_bg = wezterm.color.parse(palette.background)
+		local faded_bg = current_bg:darken(0.4):desaturate(0.4)
 		overrides.colors = {
-			background = MOCHA_CRUST, -- Switch to a darker base from your variables
+			background = faded_bg,
+		}
+		overrides.foreground_text_hsb = {
+			brightness = 0.6,
+			saturation = 0.6,
 		}
 	end
 	window:set_config_overrides(overrides)
