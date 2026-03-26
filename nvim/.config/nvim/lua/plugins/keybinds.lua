@@ -60,18 +60,18 @@ local keybinds = {
 	{ "K", desc = "<cmd>lua vim.lsp.buf.hover()<cr>" },
 	{ "<leader>/", "<Plug>(comment_toggle_linewise_visual)", desc = "Comment", mode = "v" },
 	-- REPL
-	{ "<leader>s", group = "REPL", mode = "nv" },
-	{ "<leader>sh", repl.send_hello_world, desc = "Send Hello World", mode = "n" },
-	{ "<leader>sb", repl.send_current_buffer, desc = "Send Current Buffer", mode = "n" },
-	{ "<leader>sl", repl.send_currentLine, desc = "Send Current Line", mode = "n" },
-	{ "<leader>sc", repl.send_code_block, desc = "Send Code Block", mode = "n" },
-	{ "<leader>sn", repl.send_code_block_move_to_next, desc = "Send Code Block + Move To Next", mode = "n" },
-	{
-		"<leader>sv",
-		repl.send_visual_lines,
-		desc = "Send Visual Lines",
-		mode = "nv",
-	},
+	-- { "<leader>s", group = "REPL", mode = "nv" },
+	-- { "<leader>sh", repl.send_hello_world, desc = "Send Hello World", mode = "n" },
+	-- { "<leader>sb", repl.send_current_buffer, desc = "Send Current Buffer", mode = "n" },
+	-- { "<leader>sl", repl.send_currentLine, desc = "Send Current Line", mode = "n" },
+	-- { "<leader>sc", repl.send_code_block, desc = "Send Code Block", mode = "n" },
+	-- { "<leader>sn", repl.send_code_block_move_to_next, desc = "Send Code Block + Move To Next", mode = "n" },
+	-- {
+	-- 	"<leader>sv",
+	-- 	repl.send_visual_lines,
+	-- 	desc = "Send Visual Lines",
+	-- 	mode = "nv",
+	-- },
 	-- Git
 	{ "<leader>y", group = "Git", mode = "n" },
 	{
