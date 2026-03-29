@@ -129,6 +129,28 @@ local function get_clock()
 	return TIME_LEFT_SEPARATOR .. CLOCK_ICON .. time .. TIME_RIGHT_SEPARATOR
 end
 
+-- 󰸗  󰃭   󰸘 󰃶   
+local function get_calandar()
+	local left_separator = wezterm.format({
+		{ Foreground = { Color = MOCHA_BLUE } },
+		{ Text = "" },
+	})
+	local icon = wezterm.format({
+		{ Background = { Color = MOCHA_BLUE } },
+		{ Foreground = { Color = MOCHA_MANTLE } },
+		{ Text = " " },
+	})
+	local current_date = wezterm.format({
+		{ Background = { Color = MOCHA_SURFACE0 } },
+		{ Text = wezterm.strftime(" %d %b") }, -- 31 Mar
+	})
+	local right_separator = wezterm.format({
+		{ Foreground = { Color = MOCHA_SURFACE0 } },
+		{ Text = " " },
+	})
+	return left_separator .. icon .. current_date .. right_separator
+end
+
 -- Zoom Icon and formatting
 ZOOM_ICON = wezterm.format({
 	{ Foreground = { Color = MOCHA_GREEN } },
@@ -151,8 +173,9 @@ end
 
 wezterm.on("update-status", function(window, _)
 	local zoom = get_zoom(window)
+	local date = get_calandar()
 	local clock = get_clock()
-	window:set_right_status(zoom .. clock)
+	window:set_right_status(zoom .. date .. clock)
 end)
 
 -- INACTIVE PANE DIMMING
