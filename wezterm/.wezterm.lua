@@ -9,7 +9,7 @@ local config = wezterm.config_builder()
 local operating_system = wezterm.target_triple
 local is_mac = operating_system:find("apple") ~= nil
 local mod = is_mac and "CMD" or "CTRL"
-local nav_mod = is_mac and "CMD" or "LEADER|CTRL"
+local nav_mod = is_mac and "CMD" or "ALT"
 
 if is_mac then
 	-- TITLE_BAR gives you the traffic lights, but RESIZE removes the thick ugly bar
