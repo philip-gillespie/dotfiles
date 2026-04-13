@@ -9,6 +9,8 @@ table.insert(M, {
 		"saadparwaiz1/cmp_luasnip",
 	},
 })
+-- Dictionary completion source
+table.insert(M, { "uga-rosa/cmp-dictionary" })
 
 -- Completion engine for neovim
 
@@ -27,6 +29,11 @@ end
 
 local function expand_snippet(args)
 	require("luasnip").lsp_expand(args.body)
+end
+
+local function filter_long_words(entry, ctx)
+	local word = entry:get_completion_item().label
+	return #word >= 6
 end
 
 local function config()
@@ -48,6 +55,7 @@ local function config()
 	keymaps["<C-b>"] = cmp.mapping.scroll_docs(-4)
 	keymaps["<C-f>"] = cmp.mapping.scroll_docs(4)
 	keymaps["<C-e>"] = cmp.mapping.confirm({ select = false })
+	keymaps["<C-CR>"] = cmp.mapping.confirm({ select = false })
 	-- jump through snippet
 	local function jump(fallback)
 		if luasnip.expand_or_jumpable() then
@@ -101,6 +109,7 @@ local function config()
 		{ name = "nvim_lsp" },
 		{ name = "buffer" },
 		{ name = "path" },
+		{ name = "dictionary", entry_filter = filter_long_words },
 	})
 	return cfg
 end
@@ -110,6 +119,10 @@ local function setup_completions()
 	require("luasnip.loaders.from_vscode").lazy_load()
 	require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/lua/snippets" })
 	cmp.setup(config())
+	require("cmp_dictionary").setup({
+		paths = { "/usr/share/dict/words" },
+		first_case_insensitive = true,
+	})
 end
 
 table.insert(M, {
