@@ -313,11 +313,6 @@ config.keys = {
 	},
 	{
 		key = "h",
-		mods = "CTRL",
-		action = act.ActivatePaneDirection("Left"),
-	},
-	{
-		key = "h",
 		mods = nav_mod,
 		action = act.ActivatePaneDirection("Left"),
 	},
@@ -330,11 +325,6 @@ config.keys = {
 		key = "k",
 		mods = nav_mod,
 		action = act.ActivatePaneDirection("Up"),
-	},
-	{
-		key = "l",
-		mods = "CTRL",
-		action = act.ActivatePaneDirection("Right"),
 	},
 	{
 		key = "l",

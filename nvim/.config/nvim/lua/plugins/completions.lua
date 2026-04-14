@@ -31,9 +31,12 @@ local function expand_snippet(args)
 	require("luasnip").lsp_expand(args.body)
 end
 
-local function filter_long_words(entry, ctx)
+local function filter_dictionary_words(entry, ctx)
 	local word = entry:get_completion_item().label
-	return #word >= 6
+	-- Get the length of the text before the cursor (what the user typed)
+	local typed_length = string.len(ctx.cursor_before_line:match("(%S*)$") or "")
+	-- Only suggest words that are at least 3 letters longer than what's typed
+	return #word >= typed_length + 1 and #word >= 3
 end
 
 local function config()
@@ -46,12 +49,30 @@ local function config()
 		snippet = { expand = expand_snippet },
 		window = { documentation = { max_width = 50 } },
 	}
+	-- Choice node navigation
+	local function select_next_choice(fallback)
+		if luasnip.choice_active() then
+			luasnip.change_choice(1)
+		else
+			fallback()
+		end
+	end
+
+	local function select_prev_choice(fallback)
+		if luasnip.choice_active() then
+			luasnip.change_choice(-1)
+		else
+			fallback()
+		end
+	end
 
 	-- Mappings
 	local keymaps = {}
 	keymaps["<CR>"] = function(fallback)
 		fallback()
 	end
+	keymaps["<C-h>"] = cmp.mapping(select_next_choice, { "i", "s" })
+	keymaps["<C-l>"] = cmp.mapping(select_prev_choice, { "i", "s" })
 	keymaps["<C-b>"] = cmp.mapping.scroll_docs(-4)
 	keymaps["<C-f>"] = cmp.mapping.scroll_docs(4)
 	keymaps["<C-e>"] = cmp.mapping.confirm({ select = false })
@@ -109,7 +130,7 @@ local function config()
 		{ name = "nvim_lsp" },
 		{ name = "buffer" },
 		{ name = "path" },
-		{ name = "dictionary", entry_filter = filter_long_words },
+		{ name = "dictionary", entry_filter = filter_dictionary_words },
 	})
 	return cfg
 end
