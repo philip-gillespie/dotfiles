@@ -18,7 +18,7 @@ for type, icon in pairs(signs) do
 end
 
 -- LSP Log Management
-local lsp_log_path = vim.lsp.get_log_path()
+local lsp_log_path = vim.lsp.log.get_filename()
 local max_size_mb = 5 -- Change this to your preferred limit (e.g., 5MB or 10MB)
 
 local function clean_lsp_log()
