@@ -3,14 +3,14 @@
 local function setup()
 	require("aerial").setup({
 		backends = { "treesitter" },
-		-- filter_kind = false,
+		filter_kind = false,
 		close_on_select = true,
-		layout = { min_width = 20, default_direction = "float" },
+		layout = { min_width = 20, default_direction = "float", max_width = 0.8 },
 		float = { relative = "editor" },
 		nav = { preview = true, max_width = 0.2 },
 		manage_folds = true,
 		show_guides = true,
-        post_jump_cmd = "normal! zt",
+		post_jump_cmd = "normal! zt",
 	})
 	-- You probably also want to set a keymap to toggle aerial
 	vim.keymap.set("n", "<leader> ", "<cmd>AerialToggle<CR>")
