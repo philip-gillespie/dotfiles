@@ -18,23 +18,21 @@ local function setup()
 		end,
 	})
 	vim.keymap.set("n", "<leader> ", "<cmd>AerialNavToggle<CR>")
-    -- inside aerial.lua setup function
-    vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "aerial", "aerial-nav" }, -- Added the hyphen
-        callback = function()
-            -- Schedule ensures this runs after Aerial's own window logic
-            vim.schedule(function()
-                vim.wo.number = true
-                vim.wo.relativenumber = true
-            end)
-        end,
-    })
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = { "aerial", "aerial-nav" },
+		callback = function(args)
+			vim.schedule(function()
+				vim.wo.number = true
+				vim.wo.relativenumber = true
+			end)
+			vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = args.buf, silent = true })
+		end,
+	})
 end
 
 return {
 	"stevearc/aerial.nvim",
 	opts = {},
-	-- Optional dependencies
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-tree/nvim-web-devicons",
