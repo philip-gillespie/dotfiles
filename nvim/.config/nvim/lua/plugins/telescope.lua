@@ -15,6 +15,7 @@ return {
 			local fb_actions = telescope.extensions.file_browser.actions
 
 			telescope.setup({
+				defaults = { mappings = { ["n"] = { ["q"] = actions.close } } },
 				extensions = {
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown({}),
