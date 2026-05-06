@@ -1,5 +1,4 @@
 -- aerial.lua
--- This allows <leader>a to show contents.
 local function setup()
 	require("aerial").setup({
 		backends = { "treesitter" },
@@ -8,20 +7,28 @@ local function setup()
 		layout = { min_width = 20, default_direction = "float", max_width = 0.8 },
 		float = { relative = "editor" },
 		nav = { preview = true, max_width = 0.2 },
-		manage_folds = true,
+		manage_folds = false,
+		link_tree_to_folds = false,
+		link_folds_to_tree = false,
+
 		show_guides = true,
 		post_jump_cmd = "normal! zt",
-	})
-	-- You probably also want to set a keymap to toggle aerial
-	vim.keymap.set("n", "<leader> ", "<cmd>AerialToggle<CR>")
-	-- Add this inside your setup() function after require("aerial").setup()
-	vim.api.nvim_create_autocmd("FileType", {
-		pattern = "aerial",
-		callback = function()
-			vim.opt_local.number = true
-			vim.opt_local.relativenumber = true
+		on_first_symbols = function(_)
+			require("aerial").tree_close_all()
 		end,
 	})
+	vim.keymap.set("n", "<leader> ", "<cmd>AerialNavToggle<CR>")
+    -- inside aerial.lua setup function
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "aerial", "aerial-nav" }, -- Added the hyphen
+        callback = function()
+            -- Schedule ensures this runs after Aerial's own window logic
+            vim.schedule(function()
+                vim.wo.number = true
+                vim.wo.relativenumber = true
+            end)
+        end,
+    })
 end
 
 return {
