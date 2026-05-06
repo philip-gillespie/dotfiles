@@ -23,8 +23,7 @@ return {
 						hijack_netrw = true,
 						hidden = true,
 						mappings = {
-							-- ["n"] dictates Normal mode overrides specifically for file_browser
-							["n"] = {
+							["n"] = { -- Normal mode overrides
 								["h"] = fb_actions.goto_parent_dir,
 								["l"] = actions.select_default,
 							},
@@ -32,9 +31,22 @@ return {
 					},
 				},
 			})
-			-- To get ui-select loaded and working with telescope, you need to call
-			-- load_extension, somewhere after setup function:
-			require("telescope").load_extension("ui-select")
+
+			-- Relative line numbers in Telescope results
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "TelescopeResults",
+				callback = function()
+					vim.opt_local.number = true
+					vim.opt_local.relativenumber = true
+				end,
+			})
+
+			-- Global Keymap for File Browser
+			vim.keymap.set("n", "<leader>t", ":Telescope file_browser initial_mode=normal <CR>")
+
+			-- Load Extensions
+			telescope.load_extension("ui-select")
+			telescope.load_extension("file_browser")
 		end,
 	},
 }
