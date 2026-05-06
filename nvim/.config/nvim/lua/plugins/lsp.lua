@@ -1,6 +1,4 @@
 -- lsp.lua
-vim.lsp.handlers["window/showMessage"] = function(_, result, ctx) end
-vim.lsp.handlers["window/logMessage"] = function(_, _) end
 
 -- Disable virtual text and enable signs
 vim.diagnostic.config({
@@ -50,14 +48,14 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "pyrefly", "ruff"},
+				ensure_installed = { "lua_ls", "pyrefly", "ruff" },
 			})
 		end,
 	},
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
 			capabilities.textDocument = capabilities.textDocument or {}
 			capabilities.textDocument.synchronization = {
 				dynamicRegistration = false,
@@ -66,6 +64,7 @@ return {
 				willSaveWaitUntil = false,
 			}
 			vim.lsp.config("pyrefly", {
+				cmd = { "sh", "-c", "exec pyrefly lsp 2>/dev/null" },
 				settings = {
 					python = {
 						pyrefly = {
@@ -77,6 +76,7 @@ return {
 			})
 		end,
 	},
+
 	-- none-ls.lua
 	-- None ls is used for formatting and linting of files
 	-- None-ls is a maintained fork of depractaed null os
@@ -89,7 +89,6 @@ return {
 		},
 		config = function()
 			require("mason-null-ls").setup({
-				-- ensure_installed = { "stylua", "prettier", "black", "isort" },
 				ensure_installed = { "stylua", "prettier", "isort" },
 			})
 		end,
