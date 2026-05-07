@@ -15,7 +15,7 @@ vim.api.nvim_create_user_command("W", "w", {})
 
 -- MacOS specific
 -- Insert mode: Option+3 = #
-vim.keymap.set('i', '<M-3>', '#')
+vim.keymap.set("i", "<M-3>", "#")
 
 -- Modes
 --   normal_mode = "n",
@@ -27,26 +27,24 @@ vim.keymap.set('i', '<M-3>', '#')
 
 -- Select mode
 -- Common keys that have different behavior in SELECT mode
-keymap('s', 'p', 'p', { noremap = true })  -- paste -> type 'p'
-keymap('s', 'P', 'P', { noremap = true })  -- paste before -> type 'P'
-keymap('s', 'c', 'c', { noremap = true })  -- change -> type 'c'
-keymap('s', 'C', 'C', { noremap = true })  -- change line -> type 'C'
-keymap('s', 'd', 'd', { noremap = true })  -- delete -> type 'd'
-keymap('s', 'D', 'D', { noremap = true })  -- delete line -> type 'D'
-keymap('s', 'x', 'x', { noremap = true })  -- delete char -> type 'x'
-keymap('s', 'X', 'X', { noremap = true })  -- delete char before -> type 'X'
-keymap('s', 'r', 'r', { noremap = true })  -- replace -> type 'r'
-keymap('s', 'R', 'R', { noremap = true })  -- replace mode -> type 'R'
-keymap('s', 's', 's', { noremap = true })  -- substitute -> type 's'
-keymap('s', 'S', 'S', { noremap = true })  -- substitute line -> type 'S'
-
+keymap("s", "p", "p", { noremap = true }) -- paste -> type 'p'
+keymap("s", "P", "P", { noremap = true }) -- paste before -> type 'P'
+keymap("s", "c", "c", { noremap = true }) -- change -> type 'c'
+keymap("s", "C", "C", { noremap = true }) -- change line -> type 'C'
+keymap("s", "d", "d", { noremap = true }) -- delete -> type 'd'
+keymap("s", "D", "D", { noremap = true }) -- delete line -> type 'D'
+keymap("s", "x", "x", { noremap = true }) -- delete char -> type 'x'
+keymap("s", "X", "X", { noremap = true }) -- delete char before -> type 'X'
+keymap("s", "r", "r", { noremap = true }) -- replace -> type 'r'
+keymap("s", "R", "R", { noremap = true }) -- replace mode -> type 'R'
+keymap("s", "s", "s", { noremap = true }) -- substitute -> type 's'
+keymap("s", "S", "S", { noremap = true }) -- substitute line -> type 'S'
 
 -- Normal --
--- Window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
+vim.keymap.set("n", "<C-j>", "10jzz", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-k>", "10kzz", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-h>", "zH", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-l>", "zL", { noremap = true, silent = true })
 
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize +2<CR>", opts)
@@ -57,7 +55,6 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 -- Navigate buffers
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
-
 
 -- Visual Block --
 -- Move text up and down
