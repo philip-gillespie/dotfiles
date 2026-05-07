@@ -23,36 +23,51 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
     background = 'p:peach'
     foreground = 'p:mantle'
     template = '  /{{ .Path }} '
+    min_width=80
 
     [blocks.segments.properties]
       cache_duration = 'none'
       style = 'folder'
       max_len=5
 
-    [[blocks.segments]]
-      type = 'git'
-      style = 'accordion'
-      foreground = 'p:mantle'
-      background = 'p:green'
-      powerline_symbol = ''
-      min_width = 80              # Only active if terminal width >= 80
-      template = '{{ .HEAD }}'
+  [[blocks.segments]]
+    type = 'path'
+    style = 'powerline'
+    powerline_symbol = ''
+    background = 'p:peach'
+    foreground = 'p:mantle'
+    template = '  '
+    max_width=79
 
-      [blocks.segments.properties]
-        branch_max_length = 25
-        fetch_status = true
+    [blocks.segments.properties]
+      cache_duration = 'none'
+      style = 'folder'
+      max_len=5
 
-    [[blocks.segments]]
-      type = 'git'
-      style = 'accordion'
-      foreground = 'p:mantle'
-      background = 'p:green'
-      powerline_symbol = ''
-      max_width = 79
-      template = ' '
+  [[blocks.segments]]
+    type = 'git'
+    style = 'accordion'
+    foreground = 'p:mantle'
+    background = 'p:green'
+    powerline_symbol = ''
+    min_width = 80              # Only active if terminal width >= 80
+    template = '{{ .HEAD }}'
+  
+    [blocks.segments.properties]
+      branch_max_length = 25
+      fetch_status = true
 
-      [blocks.segments.properties]
-        fetch_status = true
+  [[blocks.segments]]
+    type = 'git'
+    style = 'accordion'
+    foreground = 'p:mantle'
+    background = 'p:green'
+    powerline_symbol = ''
+    max_width = 79
+    template = ' '
+  
+    [blocks.segments.properties]
+      fetch_status = true
 
   [[blocks.segments]]
 	template = '  {{if .Venv}}(venv){{end}}'
