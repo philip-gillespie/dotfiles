@@ -1,4 +1,5 @@
 # .zshrc
+export EDITOR='nvim'
 
 # stty eof undef
 # Define the custom widget
