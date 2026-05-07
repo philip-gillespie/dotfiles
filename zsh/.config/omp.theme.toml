@@ -17,31 +17,42 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
     style = 'diamond'
 
   [[blocks.segments]]
-    template = '  /{{ .Path }} '
-    foreground = 'p:mantle'
-    powerline_symbol = ''
-    background = 'p:peach'
     type = 'path'
     style = 'powerline'
+    powerline_symbol = ''
+    background = 'p:peach'
+    foreground = 'p:mantle'
+    template = '  /{{ .Path }} '
 
     [blocks.segments.properties]
       cache_duration = 'none'
       style = 'folder'
       max_len=5
 
-  [[blocks.segments]]
-    template = ' {{ .HEAD }} '
-    foreground = 'p:mantle'
-    powerline_symbol = ''
-    background = 'p:green'
-    type = 'git'
-    style = 'accordion'
+    [[blocks.segments]]
+      type = 'git'
+      style = 'accordion'
+      foreground = 'p:mantle'
+      background = 'p:green'
+      powerline_symbol = ''
+      min_width = 80              # Only active if terminal width >= 80
+      template = '{{ .HEAD }}'
 
-    [blocks.segments.properties]
-      branch_max_length = 25
-      fetch_status = true
-      cache_duration = 'none'
-      fetch_upstream_icon = true
+      [blocks.segments.properties]
+        branch_max_length = 25
+        fetch_status = true
+
+    [[blocks.segments]]
+      type = 'git'
+      style = 'accordion'
+      foreground = 'p:mantle'
+      background = 'p:green'
+      powerline_symbol = ''
+      max_width = 79
+      template = ' '
+
+      [blocks.segments.properties]
+        fetch_status = true
 
   [[blocks.segments]]
 	template = '  {{if .Venv}}(venv){{end}}'
