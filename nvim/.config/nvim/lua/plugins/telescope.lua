@@ -20,6 +20,10 @@ return {
 				defaults = {
 					file_ignore_patterns = { ".git/" }, -- Always hide .git internals
 					mappings = { ["n"] = { ["q"] = actions.close } },
+					sorting_strategy = "ascending",
+					layout_config = {
+						prompt_position = "top",
+					},
 				},
 				extensions = {
 					["ui-select"] = {
@@ -27,7 +31,11 @@ return {
 					},
 					file_browser = {
 						hijack_netrw = true,
+						grouped = true,
+						files_first = false, -- Ensures 'grouped' takes precedence
+						sort_by = "name",
 						hidden = true,
+						use_fd = true,
 						mappings = {
 							["n"] = { -- Normal mode overrides
 								["h"] = fb_actions.goto_parent_dir,
@@ -66,6 +74,7 @@ return {
 			end, { desc = "Telescope find files (unfiltered)" })
 
 			-- Load Extensions
+			telescope.load_extension("file_browser")
 			telescope.load_extension("ui-select")
 		end,
 	},
