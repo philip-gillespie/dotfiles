@@ -5,100 +5,126 @@ final_space = true
 console_title_template = '{{ .Shell }} in {{ .Folder }}'
 
 [[blocks]]
-  type = 'prompt'
-  alignment = 'left'
-  newline=true
+type = 'prompt'
+alignment = 'left'
+newline=true
 
-  [[blocks.segments]]
+    [[blocks.segments]]
     template=' {{.Icon}} '
     foreground = 'p:text'
     background = 'p:surface0'
     type = 'os'
     style = 'diamond'
 
-  [[blocks.segments]]
-    template = '  /{{ .Path }} '
-    foreground = 'p:mantle'
-    powerline_symbol = ''
-    background = 'p:peach'
+    [[blocks.segments]]
     type = 'path'
     style = 'powerline'
-
-    [blocks.segments.properties]
-      cache_duration = 'none'
-      style = 'folder'
-      max_len=5
-
-  [[blocks.segments]]
-    template = ' {{ .HEAD }} '
-    foreground = 'p:mantle'
     powerline_symbol = ''
-    background = 'p:green'
+    background = 'p:peach'
+    foreground = 'p:mantle'
+    template = '  /{{ .Path }} '
+    min_width=80
+
+        [blocks.segments.properties]
+        cache_duration = 'none'
+        style = 'folder'
+        max_len=5
+
+    [[blocks.segments]]
+    type = 'path'
+    style = 'powerline'
+    powerline_symbol = ''
+    background = 'p:peach'
+    foreground = 'p:mantle'
+    template = '  '
+    max_width=79
+
+        [blocks.segments.properties]
+        cache_duration = 'none'
+        style = 'folder'
+        max_len=5
+
+    [[blocks.segments]]
     type = 'git'
     style = 'accordion'
+    foreground = 'p:mantle'
+    background = 'p:green'
+    powerline_symbol = ''
+    min_width = 80              # Only active if terminal width >= 80
+    template = '{{ .HEAD }}'
 
-    [blocks.segments.properties]
-      branch_max_length = 25
-      fetch_status = true
-      cache_duration = 'none'
-      fetch_upstream_icon = true
+        [blocks.segments.properties]
+        branch_max_length = 25
+        fetch_status = true
 
-  [[blocks.segments]]
-	template = '  {{if .Venv}}(venv){{end}}'
+    [[blocks.segments]]
+    type = 'git'
+    style = 'accordion'
+    foreground = 'p:mantle'
+    background = 'p:green'
+    powerline_symbol = ''
+    max_width = 79
+    template = ' '
+
+        [blocks.segments.properties]
+        fetch_status = true
+
+    [[blocks.segments]]
+    template = '  {{if .Venv}}(venv){{end}}'
     foreground = 'p:mantle'
     powerline_symbol = ''
     background = 'p:blue'
     type = 'python'
     style = 'accordion'
 
-    [blocks.segments.properties]
-      cache_duration='none'
-      display_mode = 'context'
-	  home_enabled = true
-      fetch_version = true
-      fetch_virtual_env = true
-	  folder_name_fallback = false
+        [blocks.segments.properties]
+        cache_duration='none'
+        display_mode = 'context'
+        home_enabled = true
+        fetch_version = true
+        fetch_virtual_env = true
+        folder_name_fallback = false
 
 [[blocks]]
-  type = 'prompt'
-  alignment = 'left'
-  newline = true
+type = 'prompt'
+alignment = 'left'
+newline = true
 
-  [[blocks.segments]]
-  	template = ''
+    [[blocks.segments]]
+    template = ''
     background = 'transparent'
     type = 'text'
     foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}green{{end}}']
 
 [transient_prompt]
-  foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}blue{{end}}']
-  background = 'transparent'
-  template = ' '
+foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}blue{{end}}']
+background = 'transparent'
+template = ' '
 
 [palette]
-  base = '#1e1e2e'
-  blue = '#89b4fa'
-  crust = '#11111b'
-  flamingo = '#f2cdcd'
-  green = '#a6e3a1'
-  lavender = '#b4befe'
-  mantle = '#181825'
-  maroon = '#eba0ac'
-  orange = '#cba6f7'
-  oveletrlay1 = '#7f849c'
-  overlay0 = '#6c7086'
-  overlay2 = '#9399b2'
-  peach = '#fab387'
-  pink = '#f5c2e7'
-  red = '#f38ba8'
-  rosewater = '#f5e0dc'
-  sapphire = '#74c7ec'
-  sky = '#89dceb'
-  subtext0 = '#a6adc8'
-  subtext1 = '#bac2de'
-  surface0 = '#313244'
-  surface1 = '#45475a'
-  surface2 = '#585b70'
-  teal = '#94e2d5'
-  text = '#cdd6f4'
-  yellow = '#f9e2af'
+base = '#1e1e2e'
+blue = '#89b4fa'
+crust = '#11111b'
+flamingo = '#f2cdcd'
+green = '#a6e3a1'
+lavender = '#b4befe'
+mantle = '#181825'
+maroon = '#eba0ac'
+orange = '#cba6f7'
+oveletrlay1 = '#7f849c'
+overlay0 = '#6c7086'
+overlay2 = '#9399b2'
+peach = '#fab387'
+pink = '#f5c2e7'
+red = '#f38ba8'
+rosewater = '#f5e0dc'
+sapphire = '#74c7ec'
+sky = '#89dceb'
+subtext0 = '#a6adc8'
+subtext1 = '#bac2de'
+surface0 = '#313244'
+surface1 = '#45475a'
+surface2 = '#585b70'
+teal = '#94e2d5'
+text = '#cdd6f4'
+yellow = '#f9e2af'

@@ -52,10 +52,6 @@ vim.opt.incsearch = true
 -- scrolloff
 vim.opt.scrolloff = 8
 
--- scrolling
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-
 -- close windows with q
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = {

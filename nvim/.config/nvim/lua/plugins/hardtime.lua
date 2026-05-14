@@ -4,5 +4,5 @@ return {
 	"m4xshen/hardtime.nvim",
 	lazy = false,
 	dependencies = { "MunifTanjim/nui.nvim" },
-	opts = {},
+	opts = { timeout = 5000, disable_mouse = false },
 }
