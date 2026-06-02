@@ -4,5 +4,16 @@ return {
 	"m4xshen/hardtime.nvim",
 	lazy = false,
 	dependencies = { "MunifTanjim/nui.nvim" },
-	opts = { timeout = 5000, disable_mouse = false },
+	opts = {
+		timeout = 5000,
+		disable_mouse = false,
+		disabled_filetypes = {
+			"qf",
+			"netrw",
+			"NvimTree",
+			"lazy",
+			"mason",
+			"aerial-nav",
+		},
+	},
 }
