@@ -14,9 +14,13 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.python3_host_prog = vim.fn.expand("~/.virtualenvs/neovim/bin/python")
+
 -- Setup with plugins and options
 require("options")
 require("keybinds")
+require("floating-terminal")
 require("repl").setup()
 -- Will source plugins from ~/.config/nvim/lua/plugins.lua
 require("lazy").setup("plugins")
+require("custom-picker")
