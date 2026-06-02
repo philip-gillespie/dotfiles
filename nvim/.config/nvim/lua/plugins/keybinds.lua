@@ -38,23 +38,23 @@ local keybinds = {
 	{ "<leader>en", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "Next" },
 	{ "<leader>ep", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Previous" },
 	{ "<leader>et", toggle_diagnostics, desc = "Toggle" },
-	{ "<leader>f", group = "File" },
-	{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
-	{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find File" },
-	{ "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
-	{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
+	{ "<leader>f", group = "Telescope" },
 	{ "<leader>g", group = "LSP" },
 	{ "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<cr>", desc = "Get Definition" },
 	{
 		"<leader>gf",
 		function()
+			vim.lsp.buf.code_action({
+				context = { only = { "source.organizeImports" } },
+				apply = true,
+			})
 			vim.lsp.buf.format({ timeout = 2000 })
 		end,
 		desc = "Format File",
 	},
 	{ "<leader>gr", "<cmd>lua vim.lsp.buf.rename()<CR>", desc = "Rename Symbol" },
 	{ "<leader>w", toggle_wrap, desc = "Toggle Wrap" },
-	{ "K", desc = "<cmd>lua vim.lsp.buf.hover()<cr>" },
+	{ "K", "<cmd>lua vim.lsp.buf.hover()<cr>" },
 	{ "<leader>/", "<Plug>(comment_toggle_linewise_visual)", desc = "Comment", mode = "v" },
 	-- Git
 	{ "<leader>y", group = "Git", mode = "n" },

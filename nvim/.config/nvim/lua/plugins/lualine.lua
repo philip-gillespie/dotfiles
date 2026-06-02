@@ -1,23 +1,3 @@
--- Custom function to get buffer names with full paths
-local function get_full_buffer_paths()
-	local buffers = vim.api.nvim_list_bufs()
-	local buffer_names = {}
-
-	for _, buf in ipairs(buffers) do
-		-- Get the full path for the buffer
-		local bufname = vim.fn.bufname(buf)
-		if bufname ~= "" then
-			-- Use the full path of the buffer
-			table.insert(buffer_names, vim.fn.fnamemodify(bufname, ":p"))
-		else
-			table.insert(buffer_names, "[No Name]")
-		end
-	end
-
-	-- Join all buffer names with separators
-	return table.concat(buffer_names, "  ")
-end
-
 local function show_recording()
 	local recording = vim.fn.reg_recording()
 	if recording ~= "" then
@@ -26,48 +6,72 @@ local function show_recording()
 	return ""
 end
 
+local function format_branch(name)
+	if #name < 10 then
+		return name
+	end
+	local parts = vim.split(name, "/")
+	local processed = {}
+	for i, p in ipairs(parts) do
+		if i == #parts then
+			table.insert(processed, string.sub(p, 1, 4))
+			break
+		end
+		table.insert(processed, string.sub(p, 1, 2))
+	end
+	return table.concat(processed, "/")
+end
+
+local filename_cfg = {
+	"filename",
+	symbols = {
+		modified = "●",
+		readonly = "",
+		unnamed = "",
+	},
+}
+
+local lualine_cfg = {
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = {
+			{
+				"branch",
+				fmt = format_branch,
+			},
+		},
+		lualine_c = { "diff" },
+		lualine_x = { show_recording, "diagnostics" },
+		lualine_y = { "location" },
+		lualine_z = { filename_cfg },
+	},
+	tabline = {},
+	winbar = {},
+	inactive_winbar = {},
+	extensions = {},
+	options = {
+		icons_enabled = true,
+		component_separators = { left = "", right = "" },
+		section_separators = { left = "", right = "" },
+		disabled_filetypes = {
+			statusline = {},
+			winbar = {},
+		},
+		ignore_focus = {},
+		always_divide_middle = true,
+		globalstatus = true,
+		refresh = {
+			statusline = 1000,
+			tabline = 1000,
+			winbar = 1000,
+		},
+	},
+}
+
 return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
-		require("lualine").setup({
-			sections = {
-				lualine_a = { "mode" },
-				lualine_b = { { "buffers", show_filename_only = true } },
-				lualine_c = {},
-				lualine_x = { show_recording },
-				lualine_y = { "location" },
-				lualine_z = { "progress" },
-			},
-			inactive_sections = {
-				lualine_a = {},
-				lualine_b = {},
-				lualine_c = { "filename" },
-				lualine_x = { "location" },
-				lualine_y = {},
-				lualine_z = {},
-			},
-			tabline = {},
-			winbar = {},
-			inactive_winbar = {},
-			extensions = {},
-			options = {
-				icons_enabled = false,
-				component_separators = { left = "", right = "" },
-				section_separators = { left = "", right = "" },
-				disabled_filetypes = {
-					statusline = {},
-					winbar = {},
-				},
-				ignore_focus = {},
-				always_divide_middle = true,
-				globalstatus = false,
-				refresh = {
-					statusline = 1000,
-					tabline = 1000,
-					winbar = 1000,
-				},
-			},
-		})
+		require("lualine").setup(lualine_cfg)
 	end,
 }

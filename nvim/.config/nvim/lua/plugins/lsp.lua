@@ -53,6 +53,17 @@ return {
 		end,
 	},
 	{
+		-- lazydev for developing neovim configs
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = {
+			library = {
+				-- Loads luvit types when the `vim.uv` word is found
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
+		},
+	},
+	{
 		"neovim/nvim-lspconfig",
 		config = function()
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
@@ -63,17 +74,29 @@ return {
 				didSave = true,
 				willSaveWaitUntil = false,
 			}
+
+			vim.lsp.config("lua_ls", {
+				capabilities = capabilities,
+			})
+			vim.lsp.enable("lua_ls")
+
+			vim.lsp.config("ruff", {
+				capabilities = capabilities,
+			})
+			vim.lsp.enable("ruff")
+
 			vim.lsp.config("pyrefly", {
 				cmd = { "sh", "-c", "exec pyrefly lsp 2>/dev/null" },
+				capabilities = capabilities,
 				settings = {
 					python = {
 						pyrefly = {
-							-- "force-on" enables type errors even without a pyrefly.toml
 							displayTypeErrors = "force-on",
 						},
 					},
 				},
 			})
+			vim.lsp.enable("pyrefly")
 		end,
 	},
 
@@ -89,7 +112,7 @@ return {
 		},
 		config = function()
 			require("mason-null-ls").setup({
-				ensure_installed = { "stylua", "prettier", "isort" },
+				ensure_installed = { "stylua", "prettier" },
 			})
 		end,
 	},
@@ -100,7 +123,6 @@ return {
 			null_ls.setup({
 				sources = {
 					null_ls.builtins.formatting.stylua,
-					null_ls.builtins.formatting.isort,
 					null_ls.builtins.formatting.prettier.with({
 						extra_filetypes = { "toml" },
 					}),

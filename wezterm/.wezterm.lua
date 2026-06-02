@@ -265,7 +265,7 @@ config.leader = {
 }
 config.keys = {
 	{
-		key = "e",
+		key = "r",
 		mods = "LEADER|CTRL",
 		action = act.PromptInputLine({
 			description = "Enter new tab name",
@@ -287,7 +287,7 @@ config.keys = {
 		action = act.SplitPane({ direction = "Down" }),
 	},
 	{
-		key = "x",
+		key = "q",
 		mods = "LEADER|CTRL",
 		action = act.CloseCurrentPane({ confirm = true }),
 	},
