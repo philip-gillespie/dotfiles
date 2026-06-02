@@ -1,7 +1,7 @@
 -- aerial.lua
 local function setup()
 	require("aerial").setup({
-		backends = { "treesitter" },
+		backends = { "lsp", "treesitter" },
 		filter_kind = false,
 		close_on_select = true,
 		layout = { min_width = 20, default_direction = "float", max_width = 0.9 },
@@ -24,7 +24,7 @@ local function setup()
 			require("aerial").tree_close_all()
 		end,
 	})
-	vim.keymap.set("n", "<leader> ", "<cmd>AerialNavToggle<CR>")
+	vim.keymap.set("n", "<leader>a", "<cmd>AerialNavToggle<CR>")
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = { "aerial", "aerial-nav" },
 		callback = function()
