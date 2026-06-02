@@ -3,7 +3,6 @@ import sys
 
 from IPython.core.magic import register_line_magic
 
-
 @register_line_magic
 def restart(_) -> None:
     """Restart IPython session."""
