@@ -28,11 +28,14 @@ function M.build_telescope_setup()
 				["n"] = {
 					["<esc>"] = false,
 					["q"] = actions.close,
+					["<C-p>"] = require("telescope.actions.layout").toggle_preview,
 				},
 			},
 			sorting_strategy = "ascending",
 			layout_config = {
 				prompt_position = "top",
+				width = 0.95,
+				preview_width = 0.5,
 			},
 		},
 		pickers = picker_config,
@@ -53,6 +56,7 @@ function M.build_telescope_extension_cfg(actions)
 			sort_by = "name",
 			hidden = true,
 			use_fd = true,
+			display_stat = false,
 			mappings = {
 				["n"] = { -- Normal mode overrides
 					["h"] = fb_actions.goto_parent_dir,
