@@ -52,6 +52,16 @@ local keybinds = {
 		end,
 		desc = "Format File",
 	},
+	{
+		"<leader>gi",
+		function()
+			vim.lsp.buf.code_action({
+				context = { only = { "source.organizeImports" }, diagnostics = {} },
+				apply = true,
+			})
+		end,
+		desc = "Organise Imports",
+	},
 	{ "<leader>gr", "<cmd>lua vim.lsp.buf.rename()<CR>", desc = "Rename Symbol" },
 	{ "<leader>w", toggle_wrap, desc = "Toggle Wrap" },
 	{ "K", "<cmd>lua vim.lsp.buf.hover()<cr>" },
