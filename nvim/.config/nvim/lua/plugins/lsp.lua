@@ -36,6 +36,22 @@ end
 -- Run the check on startup
 clean_lsp_log()
 
+vim.keymap.set("n", "grn", function()
+	vim.lsp.buf.rename(nil, {
+		filter = function(c)
+			return c.name == "pyrefly"
+		end,
+	})
+end, { desc = "Rename via Pyrefly" })
+
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local c = vim.lsp.get_client_by_id(args.data.client_id)
+		if c and c.name == "ruff" then
+			c.server_capabilities.renameProvider = nil
+		end
+	end,
+})
 -- plugins for langauage server protocol
 return {
 	{
