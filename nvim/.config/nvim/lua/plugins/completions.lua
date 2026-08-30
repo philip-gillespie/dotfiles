@@ -1,8 +1,22 @@
 return {
 	"saghen/blink.cmp",
 	-- optional: provides snippets for the snippet source
-	dependencies = { "L3MON4D3/LuaSnip", "rafamadriz/friendly-snippets" },
-
+	-- dependencies = { "L3MON4D3/LuaSnip", "rafamadriz/friendly-snippets" },
+	dependencies = {
+		{
+			"L3MON4D3/LuaSnip",
+			version = "v2.*",
+			dependencies = { "rafamadriz/friendly-snippets" },
+			config = function()
+				require("luasnip.loaders.from_vscode").lazy_load()
+				-- if you also have your own custom snippets in ~/.config/nvim/snippets/
+				-- require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snippets" } })
+				require("luasnip.loaders.from_lua").lazy_load({
+					paths = vim.fn.stdpath("config") .. "/lua/snippets",
+				})
+			end,
+		},
+	},
 	-- use a release tag to download pre-built binaries
 	version = "1.*",
 	-- AND/OR build from source
