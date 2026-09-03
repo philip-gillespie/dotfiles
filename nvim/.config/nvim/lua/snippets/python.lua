@@ -74,4 +74,40 @@ local printf = s(
 )
 table.insert(completions, printf)
 
+local log_info = s(
+	"li",
+	fmt('logger.info("{}")', {
+		i(1),
+	})
+)
+
+table.insert(completions, log_info)
+
+local log_warning = s(
+	"lw",
+	fmt('logger.warning("{}")', {
+		i(1),
+	})
+)
+
+table.insert(completions, log_warning)
+
+local log_error = s(
+	"le",
+	fmt('logger.error("{}")', {
+		i(1),
+	})
+)
+
+table.insert(completions, log_error)
+
+local log_debug = s(
+	"ld",
+	fmt('logger.debug("{}")', {
+		i(1),
+	})
+)
+
+table.insert(completions, log_debug)
+
 return completions
