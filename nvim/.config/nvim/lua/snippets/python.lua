@@ -7,7 +7,7 @@ local fmt = require("luasnip.extras.fmt").fmt
 
 local completions = {}
 
-local def = s(
+completions.def = s(
 	"def",
 	fmt(
 		[[
@@ -18,12 +18,10 @@ local def = s(
 		{ i(1, "function"), i(2), i(3, "None"), i(4, "return None") }
 	)
 )
-table.insert(completions, def)
 
-local main = s("main", t({ "def main() -> None:", "\treturn None", "" }))
-table.insert(completions, main)
+completions.main = s("main", t({ "def main() -> None:", "\treturn None", "" }))
 
-local if_main = s(
+completions.if_main = s(
 	'if __name__ == "__main__"',
 	t({
 		'if __name__ == "__main__":',
@@ -31,7 +29,6 @@ local if_main = s(
 		'\tprint("All done!")',
 	})
 )
-table.insert(completions, if_main)
 
 local PADDING_LENGTH = 80
 local function pad_left(args)
@@ -54,15 +51,14 @@ local function pad_right(args)
 	return " " .. string.rep("#", n_right)
 end
 
-local heading = s("#heading", {
+completions.heading = s("#heading", {
 	f(pad_left, 1),
 	i(1),
 	f(pad_right, 1),
 })
-table.insert(completions, heading)
 
 -- -- print with f string
-local printf = s(
+completions.printf = s(
 	"printf",
 	-- def {}({}) -> {}:
 	fmt(
@@ -72,42 +68,33 @@ local printf = s(
 		{ i(1), i(2), i(3) }
 	)
 )
-table.insert(completions, printf)
 
-local log_info = s(
+completions.log_info = s(
 	"li",
 	fmt('logger.info("{}")', {
 		i(1),
 	})
 )
 
-table.insert(completions, log_info)
-
-local log_warning = s(
+completions.log_warning = s(
 	"lw",
 	fmt('logger.warning("{}")', {
 		i(1),
 	})
 )
 
-table.insert(completions, log_warning)
-
-local log_error = s(
+completions.log_error = s(
 	"le",
 	fmt('logger.error("{}")', {
 		i(1),
 	})
 )
 
-table.insert(completions, log_error)
-
-local log_debug = s(
+completions.log_debug = s(
 	"ld",
 	fmt('logger.debug("{}")', {
 		i(1),
 	})
 )
 
-table.insert(completions, log_debug)
-
-return completions
+return vim.tbl_values(completions)
