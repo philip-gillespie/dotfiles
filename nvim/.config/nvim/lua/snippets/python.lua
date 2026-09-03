@@ -108,20 +108,49 @@ local function find_import_end(lines)
     return last_import
 end
 
+---comment
+---@param lines string[]
+---@return integer last_import
+---@return boolean has_logging
+---@return boolean has_logger
+local function inspect_file_for_logging(lines)
+    local last_import = 0
+    local has_logging = false
+    local has_logger = false
+    for index, line in ipairs(lines) do
+        if line:match("^import%s+") or line:match("^from%s.*import%s+") then
+            last_import = index
+        end
+        if line == "import logging" then
+            has_logging = true
+        end
+        if line == "logger = logging.getLogger(__name__)" then
+            has_logger = true
+        end
+    end
+
+    return last_import, has_logging, has_logger
+end
+
 local function add_logger()
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-    vim.api.nvim_buf_set_lines(0, 0, 0, false, {
-        "import logging",
-    })
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-    local last_import = find_import_end(lines)
-    vim.api.nvim_buf_set_lines(0, last_import + 1, last_import + 1, false, {
-        "logger = logging.getLogger(__name__)",
-        "",
-    })
-
+    local last_import, has_logging, has_logger = inspect_file_for_logging(lines)
+    local lines_added = 0
+    if not has_logging then
+        vim.api.nvim_buf_set_lines(0, 0, 0, false, { "import logging" })
+        lines_added = lines_added + 1
+        last_import = last_import + 1
+    end
+    if not has_logger then
+        vim.api.nvim_buf_set_lines(0, last_import + 1, last_import + 1, false, {
+            "logger = logging.getLogger(__name__)",
+            "",
+        })
+        lines_added = lines_added + 2
+    end
     vim.schedule(function()
-        vim.api.nvim_win_set_cursor(0, { row + 3, col })
+        vim.api.nvim_win_set_cursor(0, { row + lines_added, col })
     end)
 end
 
