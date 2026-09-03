@@ -96,5 +96,36 @@ completions.log_debug = s(
 		i(1),
 	})
 )
+local function find_import_end(lines)
+	local last_import = 0
+	for i, line in ipairs(lines) do
+		if line:match("^import%s+") or line:match("^from%s+.*import%s+") then
+			last_import = i
+		end
+	end
+	return last_import
+end
+
+local function add_logger()
+	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+	vim.api.nvim_buf_set_lines(0, 0, 0, false, {
+		"import logging",
+	})
+	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+	local last_import = find_import_end(lines)
+	vim.api.nvim_buf_set_lines(0, last_import + 1, last_import + 1, false, {
+		"",
+		"logger = logging.getLogger(__name__)",
+	})
+
+	vim.schedule(function()
+		vim.api.nvim_win_set_cursor(0, { row + 3, col })
+	end)
+	return ""
+end
+
+completions.logging_setup = s("il", t(""), {
+	callbacks = { [-1] = { [events.pre_expand] = add_logger } },
+})
 
 return vim.tbl_values(completions)
