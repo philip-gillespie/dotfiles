@@ -48,13 +48,24 @@ return {
 			documentation = {
 				auto_show = true,
 				auto_show_delay_ms = 1000,
-                update_delay_ms = 200,
+				update_delay_ms = 200,
+			},
+			menu = {
+				draw = {
+					columns = {
+						{ "label", "label_description", gap = 0 },
+						{ "kind_icon" },
+					},
+				},
 			},
 		},
 
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer" },
 			providers = {
+				snippets = {
+					opts = { use_label_description = true },
+				},
 				path = {
 					opts = {
 						get_cwd = function(_)
