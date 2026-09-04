@@ -1,4 +1,6 @@
 # Configuration file for ipython.
+import sys, os
+sys.path.insert(0, os.path.expanduser('~/.ipython/extensions'))
 
 c = get_config()  #noqa
 
@@ -38,7 +40,7 @@ c = get_config()  #noqa
 
 ## A list of dotted module names of IPython extensions to load.
 #  Default: []
-# c.InteractiveShellApp.extensions = []
+c.InteractiveShellApp.extensions = ["restart"]
 
 ## Dotted module name(s) of one or more IPython extensions to load.
 #  
