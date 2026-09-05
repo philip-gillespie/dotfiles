@@ -65,6 +65,7 @@ return {
 			providers = {
 				snippets = {
 					opts = { use_label_description = true },
+                    score_offset=5,
 				},
 				path = {
 					opts = {
