@@ -5,16 +5,22 @@ local events = require("luasnip.util.events")
 
 local M = {}
 
+
+---@class ActionSnippetContext
+---@field trig string Text used to trigger the snippet
+---@field name? string Short name shown in completion menu
+---@field dscr? string Description shown in documentation
+
 ---Create a snippet that performs an action without inserting text.
 ---
 ---The action runs only after the snippet has been expanded. This avoids
 ---executing side effects when a completion engine inspects the snippet.
 ---
----@param trigger string Text used to trigger the snippet
+---@param context ActionSnippetContext 
 ---@param action fun() Function to run after expansion
 ---@return table snippet LuaSnip snippet
-function M.action_snippet(trigger, action)
-	return s(trigger, t(""), {
+function M.action_snippet(context, action)
+	return s(context, t(""), {
 		-- -1 refers to the snippet itself rather than one of its nodes.
 		callbacks = { [-1] = { [events.pre_expand] = action } },
 	})
