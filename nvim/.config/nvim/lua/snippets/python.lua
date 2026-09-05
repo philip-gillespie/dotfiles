@@ -146,12 +146,12 @@ local function add_logger()
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     local has_logging = helpers.lines_contain_pattern(lines, "import logging")
     local has_logger = helpers.lines_contain_pattern(lines, "logger = logging%.getLogger%(__name__%)")
-    local last_import_line = helpers.find_last_matching_line(lines, { "^import%s+", "^from%s.*import%s+" })
 
     if not has_logging then
         helpers.insert_lines_into_buffer({ [0] = "import logging" })
     end
     if not has_logger then
+        local last_import_line = helpers.find_last_matching_line(lines, { "^import%s+", "^from%s.*import%s+" })
         helpers.insert_lines_into_buffer({
             [last_import_line + 1] = "logger = logging.getLogger(__name__)",
             [last_import_line + 2] = "",
