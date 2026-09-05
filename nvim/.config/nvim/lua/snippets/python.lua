@@ -145,7 +145,7 @@ completions.log_debug = s(
 local function add_logger()
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     local has_logging = helpers.lines_contain_pattern(lines, "import logging")
-    local has_logger = helpers.lines_contain_pattern(lines, "logger = logging.getLogger(__name__)")
+    local has_logger = helpers.lines_contain_pattern(lines, "logger = logging%.getLogger%(__name__%)")
     local last_import_line = helpers.find_last_matching_line(lines, { "^import%s+", "^from%s.*import%s+" })
 
     if not has_logging then
