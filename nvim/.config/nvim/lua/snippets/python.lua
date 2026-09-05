@@ -9,7 +9,7 @@ local helpers = require("snippets.helpers")
 local completions = {}
 
 completions.def = s(
-	"def",
+	{ trig = "def", dscr = "add function" },
 	fmt(
 		[[
     def {}({}) -> {}:
@@ -20,10 +20,10 @@ completions.def = s(
 	)
 )
 
-completions.main = s("main", t({ "def main() -> None:", "\treturn None", "" }))
+completions.main = s({ trig = "main", dscr = "Main function" }, t({ "def main() -> None:", "\treturn None", "" }))
 
 completions.if_main = s(
-	'if __name__ == "__main__"',
+	{ trig = 'if __name__ == "__main__"', dscr = "Script entry" },
 	t({
 		'if __name__ == "__main__":',
 		"\tmain()",
