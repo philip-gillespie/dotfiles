@@ -108,41 +108,20 @@ completions.log_debug = s(
 	})
 )
 
----@param lines string[]
----@return integer last_import
----@return boolean has_logging
----@return boolean has_logger
-local function inspect_file_for_logging(lines)
-	local last_import = 0
-	local has_logging = false
-	local has_logger = false
-	for index, line in ipairs(lines) do
-		if line:match("^import%s+") or line:match("^from%s.*import%s+") then
-			last_import = index
-		end
-		if line == "import logging" then
-			has_logging = true
-		end
-		if line == "logger = logging.getLogger(__name__)" then
-			has_logger = true
-		end
-	end
-
-	return last_import, has_logging, has_logger
-end
-
 local function add_logger()
 	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-	local last_import, has_logging, has_logger = inspect_file_for_logging(lines)
+	local has_logging = helpers.lines_contain_pattern(lines, "import logging")
+	local has_logger = helpers.lines_contain_pattern(lines, "logger = logging.getLogger(__name__)")
+	local last_import_line = helpers.find_last_matching_line(lines, { "^import%s+", "^from%s.*import%s+" })
 	local lines_added = 0
 	if not has_logging then
 		vim.api.nvim_buf_set_lines(0, 0, 0, false, { "import logging" })
 		lines_added = lines_added + 1
-		last_import = last_import + 1
+		last_import_line = last_import_line + 1
 	end
 	if not has_logger then
-		vim.api.nvim_buf_set_lines(0, last_import + 1, last_import + 1, false, {
+		vim.api.nvim_buf_set_lines(0, last_import_line + 1, last_import_line + 1, false, {
 			"logger = logging.getLogger(__name__)",
 			"",
 		})
@@ -154,5 +133,19 @@ local function add_logger()
 end
 
 completions.logging_setup = helpers.action_snippet("il", add_logger)
+
+local function add_dataclass_import()
+	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+	if helpers.lines_contain_pattern(lines, "^from dataclasses import dataclass") then
+		return
+	end
+	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+	vim.api.nvim_buf_set_lines(0, 0, 0, false, { "from dataclasses import dataclass" })
+	vim.schedule(function()
+		vim.api.nvim_win_set_cursor(0, { row + 1, col })
+	end)
+end
+
+completions.import_dataclass = helpers.action_snippet("id", add_dataclass_import)
 
 return vim.tbl_values(completions)
