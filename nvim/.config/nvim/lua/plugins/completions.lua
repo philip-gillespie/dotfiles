@@ -47,13 +47,13 @@ return {
 		completion = {
 			documentation = {
 				auto_show = true,
-				auto_show_delay_ms = 1000,
+				auto_show_delay_ms = 500,
 				update_delay_ms = 200,
 			},
 			menu = {
 				draw = {
 					columns = {
-						{ "label", "label_description", gap = 0 },
+						{ "label", gap = 0 },
 						{ "kind_icon" },
 					},
 				},
@@ -65,7 +65,7 @@ return {
 			providers = {
 				snippets = {
 					opts = { use_label_description = true },
-                    score_offset=5,
+					score_offset = 5,
 				},
 				path = {
 					opts = {

@@ -9,7 +9,7 @@ local helpers = require("snippets.helpers")
 local completions = {}
 
 completions.def = s(
-	{ trig = "def", dscr = "add function" },
+	{ trig = "def ", dscr = "add function" },
 	fmt(
 		[[
     def {}({}) -> {}:
@@ -20,10 +20,19 @@ completions.def = s(
 	)
 )
 
-completions.main = s({ trig = "main", dscr = "Main function" }, t({ "def main() -> None:", "\treturn None", "" }))
+completions.main = s(
+	{
+		trig = "def main() -> None:",
+	},
+	t({
+		"def main() -> None:",
+		"\treturn None",
+		"",
+	})
+)
 
 completions.if_main = s(
-	{ trig = 'if __name__ == "__main__"', dscr = "Script entry" },
+	{ trig = 'if __name__ == "__main__":', dscr = "Script entry" },
 	t({
 		'if __name__ == "__main__":',
 		"\tmain()",
@@ -60,8 +69,7 @@ completions.heading = s("#heading", {
 
 -- -- print with f string
 completions.printf = s(
-	"printf",
-	-- def {}({}) -> {}:
+	{ trig = 'print(f"{}")', dscr = "print with an f-string" },
 	fmt(
 		[[
     print(f"{}{{{}}}{}")
@@ -72,8 +80,8 @@ completions.printf = s(
 
 completions.log_info = s(
 	{
-		trig = "li",
-		dscr = 'logger.info("")',
+		trig = 'logger.info("")',
+		dscr = "log info",
 	},
 	fmt('logger.info("{}")', {
 		i(1),
@@ -88,21 +96,47 @@ completions.log_info_fstring = s(
 )
 
 completions.log_warning = s(
-	"lw",
+	{ trig = 'logger.warning("")', dscr = "log warning" },
 	fmt('logger.warning("{}")', {
 		i(1),
 	})
 )
 
+completions.log_warning_fstring = s(
+	{
+		trig = 'logger.warning(f"{}")',
+		dscr = "log warning with f string",
+	},
+	fmt('logger.warning(f"{}")', {
+		i(1),
+	})
+)
+
 completions.log_error = s(
-	"le",
+	{
+		trig = 'logger.error("{}")',
+		dscr = "log error",
+	},
 	fmt('logger.error("{}")', {
 		i(1),
 	})
 )
 
+completions.log_error_fstring = s(
+	{
+		trig = 'logger.error(f"")',
+		dscr = "log error with f string",
+	},
+	fmt('logger.error(f"{}")', {
+		i(1),
+	})
+)
+
 completions.log_debug = s(
-	"ld",
+	{
+		trig = 'logger.debug("")',
+		dscr = "log debug",
+	},
 	fmt('logger.debug("{}")', {
 		i(1),
 	})
@@ -132,7 +166,10 @@ local function add_logger()
 	end)
 end
 
-completions.logging_setup = helpers.action_snippet("il", add_logger)
+completions.logging_setup = helpers.action_snippet({
+	trig = "import logging\n\nlogger = logging.getLogger(__name__)",
+	dscr = "set up logging",
+}, add_logger)
 
 local function add_dataclass_import()
 	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
@@ -146,6 +183,9 @@ local function add_dataclass_import()
 	end)
 end
 
-completions.import_dataclass = helpers.action_snippet("id", add_dataclass_import)
+completions.import_dataclass = helpers.action_snippet({
+	trig = "import dataclass",
+	dscr = "import dataclass from dataclasses",
+}, add_dataclass_import)
 
 return vim.tbl_values(completions)
