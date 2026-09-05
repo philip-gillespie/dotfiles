@@ -177,4 +177,14 @@ completions.import_dataclass = helpers.action_snippet({
     dscr = "import dataclass from dataclasses",
 }, add_dataclass_import)
 
+completions.add_dataclass = s({
+    trig = "@dataclass(frozen=True)\nclass",
+    dscr = "add dataclass",
+}, {
+    t({ "@dataclass(frozen=True)", "class " }),
+    i(1),
+    t({ ":", "\t" }),
+    i(0),
+})
+
 return vim.tbl_values(completions)
