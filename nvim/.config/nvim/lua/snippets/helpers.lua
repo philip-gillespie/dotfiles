@@ -5,7 +5,6 @@ local events = require("luasnip.util.events")
 
 local M = {}
 
-
 ---@class ActionSnippetContext
 ---@field trig string Text used to trigger the snippet
 ---@field name? string Short name shown in completion menu
@@ -16,7 +15,7 @@ local M = {}
 ---The action runs only after the snippet has been expanded. This avoids
 ---executing side effects when a completion engine inspects the snippet.
 ---
----@param context ActionSnippetContext 
+---@param context ActionSnippetContext
 ---@param action fun() Function to run after expansion
 ---@return table snippet LuaSnip snippet
 function M.action_snippet(context, action)
@@ -53,6 +52,22 @@ function M.find_last_matching_line(lines, patterns)
 		end
 	end
 	return last_match
+end
+
+---Insert lines into the current buffer at specified line numbers, then move
+---the cursor down to account for the newly inserted lines.
+---@param lines table<integer, string> Map of buffer line number (0-indexed) to the text to insert there
+---@return nil
+function M.insert_lines_into_buffer(lines)
+	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+	local n_lines_added = 0
+	for index, line in pairs(lines) do
+		vim.api.nvim_buf_set_lines(0, index + n_lines_added, index + n_lines_added, false, { line })
+		n_lines_added = n_lines_added + 1
+	end
+	vim.schedule(function()
+		vim.api.nvim_win_set_cursor(0, { row + n_lines_added, col })
+	end)
 end
 
 return M

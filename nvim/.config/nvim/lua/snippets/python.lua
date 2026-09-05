@@ -9,183 +9,172 @@ local helpers = require("snippets.helpers")
 local completions = {}
 
 completions.def = s(
-	{ trig = "def ", dscr = "add function" },
-	fmt(
-		[[
+    { trig = "def ", dscr = "add function" },
+    fmt(
+        [[
     def {}({}) -> {}:
         {}
 
     ]],
-		{ i(1, "function"), i(2), i(3, "None"), i(4, "return None") }
-	)
+        { i(1, "function"), i(2), i(3, "None"), i(4, "return None") }
+    )
 )
 
 completions.main = s(
-	{
-		trig = "def main() -> None:",
-	},
-	t({
-		"def main() -> None:",
-		"\treturn None",
-		"",
-	})
+    {
+        trig = "def main() -> None:",
+    },
+    t({
+        "def main() -> None:",
+        "\treturn None",
+        "",
+    })
 )
 
 completions.if_main = s(
-	{ trig = 'if __name__ == "__main__":', dscr = "Script entry" },
-	t({
-		'if __name__ == "__main__":',
-		"\tmain()",
-		'\tprint("All done!")',
-	})
+    { trig = 'if __name__ == "__main__":', dscr = "Script entry" },
+    t({
+        'if __name__ == "__main__":',
+        "\tmain()",
+        '\tprint("All done!")',
+    })
 )
 
 local PADDING_LENGTH = 80
 local function pad_left(args)
-	local title = args[1][1]
-	local padding = PADDING_LENGTH - 2 - #title
-	if padding < 0 then
-		return "# "
-	end
-	local n_left = math.floor(padding / 2)
-	return string.rep("#", n_left) .. " "
+    local title = args[1][1]
+    local padding = PADDING_LENGTH - 2 - #title
+    if padding < 0 then
+        return "# "
+    end
+    local n_left = math.floor(padding / 2)
+    return string.rep("#", n_left) .. " "
 end
 local function pad_right(args)
-	local title = args[1][1]
-	local padding = PADDING_LENGTH - 2 - #title
-	if padding < 0 then
-		return ""
-	end
-	local n_left = math.floor(padding / 2)
-	local n_right = padding - n_left
-	return " " .. string.rep("#", n_right)
+    local title = args[1][1]
+    local padding = PADDING_LENGTH - 2 - #title
+    if padding < 0 then
+        return ""
+    end
+    local n_left = math.floor(padding / 2)
+    local n_right = padding - n_left
+    return " " .. string.rep("#", n_right)
 end
 
 completions.heading = s("#heading", {
-	f(pad_left, 1),
-	i(1),
-	f(pad_right, 1),
+    f(pad_left, 1),
+    i(1),
+    f(pad_right, 1),
 })
 
 -- -- print with f string
 completions.printf = s(
-	{ trig = 'print(f"{}")', dscr = "print with an f-string" },
-	fmt(
-		[[
+    { trig = 'print(f"{}")', dscr = "print with an f-string" },
+    fmt(
+        [[
     print(f"{}{{{}}}{}")
     ]],
-		{ i(1), i(2), i(3) }
-	)
+        { i(1), i(2), i(3) }
+    )
 )
 
 completions.log_info = s(
-	{
-		trig = 'logger.info("")',
-		dscr = "log info",
-	},
-	fmt('logger.info("{}")', {
-		i(1),
-	})
+    {
+        trig = 'logger.info("")',
+        dscr = "log info",
+    },
+    fmt('logger.info("{}")', {
+        i(1),
+    })
 )
 
 completions.log_info_fstring = s(
-	"lif",
-	fmt('logger.info(f"{}")', {
-		i(1),
-	})
+    "lif",
+    fmt('logger.info(f"{}")', {
+        i(1),
+    })
 )
 
 completions.log_warning = s(
-	{ trig = 'logger.warning("")', dscr = "log warning" },
-	fmt('logger.warning("{}")', {
-		i(1),
-	})
+    { trig = 'logger.warning("")', dscr = "log warning" },
+    fmt('logger.warning("{}")', {
+        i(1),
+    })
 )
 
 completions.log_warning_fstring = s(
-	{
-		trig = 'logger.warning(f"{}")',
-		dscr = "log warning with f string",
-	},
-	fmt('logger.warning(f"{}")', {
-		i(1),
-	})
+    {
+        trig = 'logger.warning(f"{}")',
+        dscr = "log warning with f string",
+    },
+    fmt('logger.warning(f"{}")', {
+        i(1),
+    })
 )
 
 completions.log_error = s(
-	{
-		trig = 'logger.error("{}")',
-		dscr = "log error",
-	},
-	fmt('logger.error("{}")', {
-		i(1),
-	})
+    {
+        trig = 'logger.error("{}")',
+        dscr = "log error",
+    },
+    fmt('logger.error("{}")', {
+        i(1),
+    })
 )
 
 completions.log_error_fstring = s(
-	{
-		trig = 'logger.error(f"")',
-		dscr = "log error with f string",
-	},
-	fmt('logger.error(f"{}")', {
-		i(1),
-	})
+    {
+        trig = 'logger.error(f"")',
+        dscr = "log error with f string",
+    },
+    fmt('logger.error(f"{}")', {
+        i(1),
+    })
 )
 
 completions.log_debug = s(
-	{
-		trig = 'logger.debug("")',
-		dscr = "log debug",
-	},
-	fmt('logger.debug("{}")', {
-		i(1),
-	})
+    {
+        trig = 'logger.debug("")',
+        dscr = "log debug",
+    },
+    fmt('logger.debug("{}")', {
+        i(1),
+    })
 )
 
 local function add_logger()
-	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-	local has_logging = helpers.lines_contain_pattern(lines, "import logging")
-	local has_logger = helpers.lines_contain_pattern(lines, "logger = logging.getLogger(__name__)")
-	local last_import_line = helpers.find_last_matching_line(lines, { "^import%s+", "^from%s.*import%s+" })
-	local lines_added = 0
-	if not has_logging then
-		vim.api.nvim_buf_set_lines(0, 0, 0, false, { "import logging" })
-		lines_added = lines_added + 1
-		last_import_line = last_import_line + 1
-	end
-	if not has_logger then
-		vim.api.nvim_buf_set_lines(0, last_import_line + 1, last_import_line + 1, false, {
-			"logger = logging.getLogger(__name__)",
-			"",
-		})
-		lines_added = lines_added + 2
-	end
-	vim.schedule(function()
-		vim.api.nvim_win_set_cursor(0, { row + lines_added, col })
-	end)
+    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+    local has_logging = helpers.lines_contain_pattern(lines, "import logging")
+    local has_logger = helpers.lines_contain_pattern(lines, "logger = logging.getLogger(__name__)")
+    local last_import_line = helpers.find_last_matching_line(lines, { "^import%s+", "^from%s.*import%s+" })
+
+    if not has_logging then
+        helpers.insert_lines_into_buffer({ [0] = "import logging" })
+    end
+    if not has_logger then
+        helpers.insert_lines_into_buffer({
+            [last_import_line + 1] = "logger = logging.getLogger(__name__)",
+            [last_import_line + 2] = "",
+        })
+    end
 end
 
 completions.logging_setup = helpers.action_snippet({
-	trig = "import logging\n\nlogger = logging.getLogger(__name__)",
-	dscr = "set up logging",
+    trig = "import logging\n\nlogger = logging.getLogger(__name__)",
+    dscr = "set up logging",
 }, add_logger)
 
 local function add_dataclass_import()
-	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-	if helpers.lines_contain_pattern(lines, "^from dataclasses import dataclass") then
-		return
-	end
-	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-	vim.api.nvim_buf_set_lines(0, 0, 0, false, { "from dataclasses import dataclass" })
-	vim.schedule(function()
-		vim.api.nvim_win_set_cursor(0, { row + 1, col })
-	end)
+    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+    if helpers.lines_contain_pattern(lines, "^from dataclasses import dataclass") then
+        return
+    end
+    helpers.insert_lines_into_buffer({ [0] = "from dataclasses import dataclass" })
 end
 
 completions.import_dataclass = helpers.action_snippet({
-	trig = "import dataclass",
-	dscr = "import dataclass from dataclasses",
+    trig = "import dataclass",
+    dscr = "import dataclass from dataclasses",
 }, add_dataclass_import)
 
 return vim.tbl_values(completions)
