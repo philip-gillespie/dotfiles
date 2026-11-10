@@ -1,0 +1,12 @@
+theme = "catppuccin_mocha"
+
+[editor]
+line-number = "relative"
+
+[editor.indent-guides]
+render = true
+character = "│"
+skip-levels = 0
+
+[keys.normal]
+K = "hover"
