@@ -9,4 +9,7 @@ character = "│"
 skip-levels = 0
 
 [keys.normal]
+"C-g" = "increment"
 K = "hover"
+H = "goto_line_start"
+L = "goto_line_end"
